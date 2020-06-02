@@ -5,8 +5,13 @@ defmodule TaskeritoWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :graphql do
+    plug TaskeritoWeb.Context
+  end
+
   scope "/api" do
     pipe_through :api
+    pipe_through :graphql
 
     forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TaskeritoWeb.Schema
 

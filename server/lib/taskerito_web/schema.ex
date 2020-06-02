@@ -1,12 +1,13 @@
 defmodule TaskeritoWeb.Schema do
   use Absinthe.Schema
 
+  import_types TaskeritoWeb.Schema.AccountTypes
+
   query do
+    import_fields :user_queries
+  end
 
-    @desc ""
-    field :test, :string do
-      resolve fn (_, _) -> {:ok, "yo"} end
-    end
-
+  mutation do
+    import_fields :user_mutations
   end
 end

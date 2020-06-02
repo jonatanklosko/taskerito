@@ -6,14 +6,32 @@ defmodule Taskerito.Accounts.User do
     field :email, :string
     field :name, :string
     field :username, :string
+    field :password, :string, virtual: true
+    field :password_hash, :string
 
     timestamps()
   end
 
-  @doc false
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:username, :name, :email])
     |> validate_required([:username, :name, :email])
+    |> unique_constraint(:username)
+    |> unique_constraint(:email)
   end
+
+  def sign_up_changeset(user, attrs) do
+    user
+    |> changeset(attrs)
+    |> cast(attrs, [:password])
+    |> validate_required(:password)
+    |> validate_length(:password, min: 8)
+    |> put_password_hash()
+  end
+
+  defp put_password_hash(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, Argon2.add_hash(password))
+  end
+
+  defp put_password_hash(changeset), do: changeset
 end
