@@ -5,8 +5,12 @@ defmodule TaskeritoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", TaskeritoWeb do
+  scope "/api" do
     pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TaskeritoWeb.Schema
+
+    forward "/", Absinthe.Plug, schema: TaskeritoWeb.Schema
   end
 
   # Enables LiveDashboard only for development
