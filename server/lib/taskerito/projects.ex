@@ -5,8 +5,8 @@ defmodule Taskerito.Projects do
 
   import Ecto.Query, warn: false
   alias Taskerito.Repo
-
   alias Taskerito.Projects.Project
+  alias Taskerito.Projects.Task
   alias Taskerito.Accounts
 
   @doc """
@@ -61,5 +61,51 @@ defmodule Taskerito.Projects do
   """
   def change_project(%Project{} = project, attrs \\ %{}) do
     Project.changeset(project, attrs)
+  end
+
+  @doc """
+  Returns the list of tasks.
+  """
+  def list_tasks do
+    Repo.all(Task)
+  end
+
+  @doc """
+  Gets a single task.
+
+  Raises `Ecto.NoResultsError` if the Task does not exist.
+  """
+  def get_task!(id), do: Repo.get!(Task, id)
+
+  @doc """
+  Creates a task.
+  """
+  def create_task(attrs \\ %{}) do
+    %Task{}
+    |> Task.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a task.
+  """
+  def update_task(%Task{} = task, attrs) do
+    task
+    |> Task.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a task.
+  """
+  def delete_task(%Task{} = task) do
+    Repo.delete(task)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking task changes.
+  """
+  def change_task(%Task{} = task, attrs \\ %{}) do
+    Task.changeset(task, attrs)
   end
 end

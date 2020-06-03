@@ -2,7 +2,7 @@ defmodule Taskerito.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias Taskerito.Projects
+  alias Taskerito.Projects.{Project, Task}
 
   schema "users" do
     field :email, :string
@@ -11,7 +11,8 @@ defmodule Taskerito.Accounts.User do
     field :password, :string, virtual: true
     field :password_hash, :string
 
-    has_many :projects, Projects.Project, foreign_key: :author_id
+    has_many :projects, Project, foreign_key: :author_id
+    has_many :tasks, Task, foreign_key: :author_id
 
     timestamps()
   end
