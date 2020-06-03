@@ -39,5 +39,11 @@ defmodule TaskeritoWeb.Schema.CommentTypes do
       resolve &Resolvers.Comments.update_comment/3
       middleware &build_payload/2
     end
+
+    field :delete_comment, non_null(:comment_payload) do
+      arg :id, non_null(:id)
+      resolve &Resolvers.Comments.delete_comment/3
+      middleware &build_payload/2
+    end
   end
 end

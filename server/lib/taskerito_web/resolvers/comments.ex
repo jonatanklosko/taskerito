@@ -3,11 +3,7 @@ defmodule TaskeritoWeb.Resolvers.Comments do
 
   def create_comment(_parent, %{task_id: task_id, input: input}, %{context: %{current_user: user}}) do
     task = Projects.get_task!(task_id)
-    if task.author_id === user.id do
-      Projects.create_comment(user, task, input)
-    else
-      {:error, :not_authorized}
-    end
+    Projects.create_comment(user, task, input)
   end
 
   def create_comment(_parent, _args, _resolution), do: {:error, :not_authorized}
@@ -22,4 +18,15 @@ defmodule TaskeritoWeb.Resolvers.Comments do
   end
 
   def update_comment(_parent, _args, _resolution), do: {:error, :not_authorized}
+
+  def delete_comment(_parent, %{id: id}, %{context: %{current_user: user}}) do
+    comment = Projects.get_comment!(id)
+    if comment.author_id === user.id do
+      Projects.delete_comment(comment)
+    else
+      {:error, :not_authorized}
+    end
+  end
+
+  def delete_comment(_parent, _args, _resolution), do: {:error, :not_authorized}
 end
