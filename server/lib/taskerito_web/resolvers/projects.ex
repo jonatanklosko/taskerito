@@ -5,6 +5,10 @@ defmodule TaskeritoWeb.Resolvers.Projects do
     {:ok, Projects.list_projects()}
   end
 
+  def get_project(_parent, %{id: id}, _resolution) do
+    {:ok, Projects.get_project(id)}
+  end
+
   def create_project(_parent, %{input: input}, %{context: %{current_user: user}}) do
     Projects.create_project(user, input)
   end

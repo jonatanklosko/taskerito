@@ -24,6 +24,13 @@ defmodule Taskerito.Projects do
   def get_project!(id), do: Repo.get!(Project, id)
 
   @doc """
+  Gets a single project.
+
+  Returns {:ok, %Project{}} or {:error, ...}.
+  """
+  def get_project(id), do: Repo.get(Project, id)
+
+  @doc """
   Creates a project.
   """
   def create_project(%Accounts.User{} = user, attrs \\ %{}) do

@@ -26,6 +26,11 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
     field :projects, non_null(list_of(non_null(:project))) do
       resolve &Resolvers.Projects.list_projects/3
     end
+
+    field :project, :project do
+      arg :id, non_null(:id)
+      resolve &Resolvers.Projects.get_project/3
+    end
   end
 
   object :project_mutations do
