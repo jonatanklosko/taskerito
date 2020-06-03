@@ -3,6 +3,7 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
 
   alias TaskeritoWeb.Resolvers
   import AbsintheErrorPayload.Payload
+  import Absinthe.Resolution.Helpers
 
   @desc "A project."
   object :project do
@@ -10,10 +11,7 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
     field :name, non_null(:string)
     field :description, non_null(:string)
     field :author, non_null(:user) do
-      # TODO: dataloader
-      resolve fn (%{author_id: author_id}, _args, _resolution) ->
-        {:ok, Taskerito.Accounts.get_user!(author_id)}
-      end
+      resolve dataloader(Taskerito.Repo)
     end
   end
 
