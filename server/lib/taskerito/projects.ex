@@ -7,7 +7,7 @@ defmodule Taskerito.Projects do
   alias Taskerito.Repo
   alias Taskerito.Projects.Project
   alias Taskerito.Projects.Task
-  alias Taskerito.Accounts
+  alias Taskerito.Accounts.User
 
   @doc """
   Returns the list of projects.
@@ -33,7 +33,7 @@ defmodule Taskerito.Projects do
   @doc """
   Creates a project.
   """
-  def create_project(%Accounts.User{} = user, attrs \\ %{}) do
+  def create_project(%User{} = user, attrs \\ %{}) do
     %Project{}
     |> Project.changeset(attrs)
     |> Ecto.Changeset.put_change(:author_id, user.id)
@@ -78,11 +78,20 @@ defmodule Taskerito.Projects do
   def get_task!(id), do: Repo.get!(Task, id)
 
   @doc """
+  Gets a single task.
+
+  Returns {:ok, %Task{}} or {:error, ...}.
+  """
+  def get_task(id), do: Repo.get(Task, id)
+
+  @doc """
   Creates a task.
   """
-  def create_task(attrs \\ %{}) do
+  def create_task(%User{} = user, %Project{} = project, attrs \\ %{}) do
     %Task{}
     |> Task.changeset(attrs)
+    |> Ecto.Changeset.put_change(:author_id, user.id)
+    |> Ecto.Changeset.put_change(:project_id, project.id)
     |> Repo.insert()
   end
 

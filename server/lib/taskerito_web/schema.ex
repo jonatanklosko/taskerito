@@ -4,15 +4,18 @@ defmodule TaskeritoWeb.Schema do
   import_types AbsintheErrorPayload.ValidationMessageTypes
   import_types TaskeritoWeb.Schema.AccountTypes
   import_types TaskeritoWeb.Schema.ProjectTypes
+  import_types TaskeritoWeb.Schema.TaskTypes
 
   query do
     import_fields :user_queries
     import_fields :project_queries
+    import_fields :task_queries
   end
 
   mutation do
     import_fields :user_mutations
     import_fields :project_mutations
+    import_fields :task_mutations
   end
 
   def context(context) do

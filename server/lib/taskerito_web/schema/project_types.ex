@@ -13,6 +13,9 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
+    field :tasks, non_null(list_of(non_null(:task))) do
+      resolve dataloader(Taskerito.Repo)
+    end
   end
 
   input_object :project_input do
