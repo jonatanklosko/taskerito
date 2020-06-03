@@ -7,6 +7,7 @@ defmodule Taskerito.Projects do
   alias Taskerito.Repo
 
   alias Taskerito.Projects.Project
+  alias Taskerito.Accounts
 
   @doc """
   Returns the list of projects.
@@ -25,9 +26,10 @@ defmodule Taskerito.Projects do
   @doc """
   Creates a project.
   """
-  def create_project(attrs \\ %{}) do
+  def create_project(%Accounts.User{} = user, attrs \\ %{}) do
     %Project{}
     |> Project.changeset(attrs)
+    |> Ecto.Changeset.put_change(:author_id, user.id)
     |> Repo.insert()
   end
 

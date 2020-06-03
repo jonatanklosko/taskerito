@@ -4,8 +4,6 @@ defmodule TaskeritoWeb.Schema.AccountTypes do
   alias TaskeritoWeb.Resolvers
   import AbsintheErrorPayload.Payload
 
-  import_types AbsintheErrorPayload.ValidationMessageTypes
-
   @desc "A user of the application."
   object :user do
     field :id, non_null(:id)
