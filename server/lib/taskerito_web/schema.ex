@@ -2,6 +2,7 @@ defmodule TaskeritoWeb.Schema do
   use Absinthe.Schema
 
   import_types AbsintheErrorPayload.ValidationMessageTypes
+  import_types Absinthe.Type.Custom
   import_types TaskeritoWeb.Schema.AccountTypes
   import_types TaskeritoWeb.Schema.ProjectTypes
   import_types TaskeritoWeb.Schema.TaskTypes

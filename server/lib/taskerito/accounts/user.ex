@@ -1,5 +1,5 @@
 defmodule Taskerito.Accounts.User do
-  use Ecto.Schema
+  use Taskerito.Schema
   import Ecto.Changeset
 
   alias Taskerito.Projects.{Project, Task, Comment}

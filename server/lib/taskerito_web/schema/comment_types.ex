@@ -9,6 +9,8 @@ defmodule TaskeritoWeb.Schema.CommentTypes do
   object :comment do
     field :id, non_null(:id)
     field :content, non_null(:string)
+    field :inserted_at, non_null(:datetime)
+    field :updated_at, non_null(:datetime)
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
