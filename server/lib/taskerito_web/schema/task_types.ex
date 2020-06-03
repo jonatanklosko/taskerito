@@ -17,6 +17,9 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     field :project, non_null(:project) do
       resolve dataloader(Taskerito.Repo)
     end
+    field :comments, non_null(list_of(non_null(:comment))) do
+      resolve dataloader(Taskerito.Repo)
+    end
   end
 
   input_object :task_input do
