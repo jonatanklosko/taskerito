@@ -1,4 +1,4 @@
-defmodule TaskeritoWeb.Resolvers.Accounts do
+defmodule TaskeritoWeb.Resolvers.Users do
   alias Taskerito.Accounts
 
   def current_user(_parent, _args, %{context: %{current_user: user}}) do

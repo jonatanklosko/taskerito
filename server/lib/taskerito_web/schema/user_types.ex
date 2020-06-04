@@ -1,4 +1,4 @@
-defmodule TaskeritoWeb.Schema.AccountTypes do
+defmodule TaskeritoWeb.Schema.UserTypes do
   use Absinthe.Schema.Notation
 
   alias TaskeritoWeb.Resolvers
@@ -38,21 +38,21 @@ defmodule TaskeritoWeb.Schema.AccountTypes do
 
   object :user_queries do
     field :current_user, :user do
-      resolve &Resolvers.Accounts.current_user/3
+      resolve &Resolvers.Users.current_user/3
     end
   end
 
   object :user_mutations do
     field :sign_up, non_null(:auth_payload) do
       arg :input, non_null(:sign_up_input)
-      resolve &Resolvers.Accounts.sign_up/3
+      resolve &Resolvers.Users.sign_up/3
       middleware &build_payload/2
     end
 
     field :sign_in, non_null(:auth_payload) do
       arg :username, non_null(:string)
       arg :password, non_null(:string)
-      resolve &Resolvers.Accounts.sign_in/3
+      resolve &Resolvers.Users.sign_in/3
       middleware &build_payload/2
     end
   end
