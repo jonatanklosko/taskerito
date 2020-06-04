@@ -30,4 +30,15 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
   end
 
   def update_task(_parent, _args, _resolution), do: {:error, :not_authorized}
+
+  def finish_task(_parent, %{id: id}, %{context: %{current_user: user}}) do
+    task = Projects.get_task!(id)
+    cond do
+      task.finished_at != nil -> {:error, :already_finished}
+      task.author_id !== user.id -> {:error, :not_authorized}
+      true -> Projects.finish_task(task)
+    end
+  end
+
+  def finish_task(_parent, _args, _resolution), do: {:error, :not_authorized}
 end

@@ -13,6 +13,7 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     field :priority, non_null(:integer)
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
+    field :finished_at, :datetime
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
@@ -55,6 +56,12 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
       arg :id, non_null(:id)
       arg :input, non_null(:task_input)
       resolve &Resolvers.Tasks.update_task/3
+      middleware &build_payload/2
+    end
+
+    field :finish_task, non_null(:task_payload) do
+      arg :id, non_null(:id)
+      resolve &Resolvers.Tasks.finish_task/3
       middleware &build_payload/2
     end
   end

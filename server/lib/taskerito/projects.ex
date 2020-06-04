@@ -118,6 +118,15 @@ defmodule Taskerito.Projects do
   end
 
   @doc """
+  Marks a task as finished.
+  """
+  def finish_task(%Task{} = task) do
+    task
+    |> Task.changeset(%{finished_at: DateTime.utc_now})
+    |> Repo.update()
+  end
+
+  @doc """
   Returns the list of comments.
   """
   def list_comments do

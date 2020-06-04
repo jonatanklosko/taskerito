@@ -9,6 +9,7 @@ defmodule Taskerito.Projects.Task do
     field :description, :string
     field :name, :string
     field :priority, :integer
+    field :finished_at, :utc_datetime
 
     belongs_to :author, User
     belongs_to :project, Project
@@ -20,7 +21,7 @@ defmodule Taskerito.Projects.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:name, :description, :priority])
+    |> cast(attrs, [:name, :description, :priority, :finished_at])
     |> validate_required([:name, :description, :priority])
   end
 end
