@@ -13,7 +13,9 @@ defmodule TaskeritoWeb.Router do
     pipe_through :api
     pipe_through :graphql
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TaskeritoWeb.Schema
+    if Mix.env == :dev do
+      forward "/graphiql", Absinthe.Plug.GraphiQL, schema: TaskeritoWeb.Schema
+    end
 
     forward "/", Absinthe.Plug, schema: TaskeritoWeb.Schema
   end
