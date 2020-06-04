@@ -14,7 +14,7 @@ defmodule Taskerito.Projects.Task do
     belongs_to :author, User
     belongs_to :project, Project
     has_many :comments, Comment
-    many_to_many :assignees, User, join_through: "task_assignments"
+    many_to_many :assignees, User, join_through: "task_assignments", on_replace: :delete
 
     timestamps()
   end
@@ -22,7 +22,7 @@ defmodule Taskerito.Projects.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:name, :description, :priority, :finished_at])
+    |> cast(attrs, [:name, :description, :priority])
     |> validate_required([:name, :description, :priority])
   end
 end

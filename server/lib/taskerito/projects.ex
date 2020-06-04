@@ -122,7 +122,33 @@ defmodule Taskerito.Projects do
   """
   def finish_task(%Task{} = task) do
     task
-    |> Task.changeset(%{finished_at: DateTime.utc_now})
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_change(:finished_at, DateTime.truncate(DateTime.utc_now, :second))
+    |> Repo.update()
+  end
+
+  @doc """
+  Assigns a task to the given user.
+  """
+  def assign_task(%Task{} = task, %User{} = user) do
+    task = Repo.preload(task, :assignees)
+
+    task
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:assignees, [user | task.assignees])
+    |> Repo.update()
+  end
+
+  @doc """
+  Unassigns a task from the given user.
+  """
+  def unassign_task(%Task{} = task, %User{} = user) do
+    task = Repo.preload(task, :assignees)
+    assignees = Enum.filter(task.assignees, fn (assignee) -> assignee.id != user.id end)
+
+    task
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_assoc(:assignees, assignees)
     |> Repo.update()
   end
 

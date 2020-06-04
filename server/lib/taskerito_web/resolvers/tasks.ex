@@ -1,5 +1,5 @@
 defmodule TaskeritoWeb.Resolvers.Tasks do
-  alias Taskerito.Projects
+  alias Taskerito.{Projects, Accounts}
 
   def list_tasks(_parent, _args, _resolution) do
     {:ok, Projects.list_tasks()}
@@ -41,4 +41,28 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
   end
 
   def finish_task(_parent, _args, _resolution), do: {:error, :not_authorized}
+
+  def assign_task(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+    task = Projects.get_task!(id)
+    user = Accounts.get_user!(user_id)
+    if task.author_id === current_user.id do
+      Projects.assign_task(task, user)
+    else
+      {:error, :not_authorized}
+    end
+  end
+
+  def assign_task(_parent, _args, _resolution), do: {:error, :not_authorized}
+
+  def unassign_task(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+    task = Projects.get_task!(id)
+    user = Accounts.get_user!(user_id)
+    if task.author_id === current_user.id do
+      Projects.unassign_task(task, user)
+    else
+      {:error, :not_authorized}
+    end
+  end
+
+  def unassign_task(_parent, _args, _resolution), do: {:error, :not_authorized}
 end
