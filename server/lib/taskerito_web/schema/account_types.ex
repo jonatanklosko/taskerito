@@ -3,6 +3,7 @@ defmodule TaskeritoWeb.Schema.AccountTypes do
 
   alias TaskeritoWeb.Resolvers
   import AbsintheErrorPayload.Payload
+  import Absinthe.Resolution.Helpers
 
   @desc "A user of the application."
   object :user do
@@ -10,6 +11,15 @@ defmodule TaskeritoWeb.Schema.AccountTypes do
     field :username, non_null(:string)
     field :name, non_null(:string)
     field :email, non_null(:string)
+    field :projects, non_null(list_of(non_null(:project))) do
+      resolve dataloader(Taskerito.Repo)
+    end
+    field :tasks, non_null(list_of(non_null(:task))) do
+      resolve dataloader(Taskerito.Repo)
+    end
+    field :assigned_tasks, non_null(list_of(non_null(:task))) do
+      resolve dataloader(Taskerito.Repo)
+    end
   end
 
   object :token_payload do

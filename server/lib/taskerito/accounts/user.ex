@@ -14,6 +14,7 @@ defmodule Taskerito.Accounts.User do
     has_many :projects, Project, foreign_key: :author_id
     has_many :tasks, Task, foreign_key: :author_id
     has_many :comments, Comment, foreign_key: :author_id
+    many_to_many :assigned_tasks, Task, join_through: "task_assignments"
 
     timestamps()
   end

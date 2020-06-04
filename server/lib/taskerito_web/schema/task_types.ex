@@ -23,6 +23,9 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     field :comments, non_null(list_of(non_null(:comment))) do
       resolve dataloader(Taskerito.Repo)
     end
+    field :assignees, non_null(list_of(non_null(:user))) do
+      resolve dataloader(Taskerito.Repo)
+    end
   end
 
   input_object :task_input do

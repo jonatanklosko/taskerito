@@ -14,6 +14,7 @@ defmodule Taskerito.Projects.Task do
     belongs_to :author, User
     belongs_to :project, Project
     has_many :comments, Comment
+    many_to_many :assignees, User, join_through: "task_assignments"
 
     timestamps()
   end
