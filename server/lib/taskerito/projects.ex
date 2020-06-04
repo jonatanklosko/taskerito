@@ -32,10 +32,10 @@ defmodule Taskerito.Projects do
   @doc """
   Creates a project.
   """
-  def create_project(%User{} = user, attrs \\ %{}) do
+  def create_project(%User{} = author, attrs \\ %{}) do
     %Project{}
     |> Project.changeset(attrs)
-    |> Ecto.Changeset.put_change(:author_id, user.id)
+    |> Ecto.Changeset.put_change(:author_id, author.id)
     |> Repo.insert()
   end
 
@@ -93,10 +93,10 @@ defmodule Taskerito.Projects do
   @doc """
   Creates a task.
   """
-  def create_task(%User{} = user, %Project{} = project, attrs \\ %{}) do
+  def create_task(%User{} = author, %Project{} = project, attrs \\ %{}) do
     %Task{}
     |> Task.changeset(attrs)
-    |> Ecto.Changeset.put_change(:author_id, user.id)
+    |> Ecto.Changeset.put_change(:author_id, author.id)
     |> Ecto.Changeset.put_change(:project_id, project.id)
     |> Repo.insert()
   end
@@ -183,10 +183,10 @@ defmodule Taskerito.Projects do
   @doc """
   Creates a comment.
   """
-  def create_comment(%User{} = user, %Task{} = task, attrs \\ %{}) do
+  def create_comment(%User{} = author, %Task{} = task, attrs \\ %{}) do
     %Comment{}
     |> Comment.changeset(attrs)
-    |> Ecto.Changeset.put_change(:author_id, user.id)
+    |> Ecto.Changeset.put_change(:author_id, author.id)
     |> Ecto.Changeset.put_change(:task_id, task.id)
     |> Repo.insert()
   end
