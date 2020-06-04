@@ -5,7 +5,7 @@ defmodule TaskeritoWeb.Resolvers.Users do
     {:ok, current_user}
   end
 
-  def current_user(_parent, _args, _resolution), do: nil
+  def current_user(_parent, _args, _resolution), do: {:ok, nil}
 
   def sign_up(_parent, %{ input: input }, _resolution) do
     Accounts.create_user(input)
