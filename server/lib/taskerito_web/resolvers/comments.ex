@@ -10,7 +10,7 @@ defmodule TaskeritoWeb.Resolvers.Comments do
 
   def update_comment(_parent, %{id: id, input: input}, %{context: %{current_user: user}}) do
     comment = Projects.get_comment!(id)
-    if comment.author_id === user.id do
+    if Projects.can_manage_comment(comment, user) do
       Projects.update_comment(comment, input)
     else
       {:error, :not_authorized}
@@ -21,7 +21,7 @@ defmodule TaskeritoWeb.Resolvers.Comments do
 
   def delete_comment(_parent, %{id: id}, %{context: %{current_user: user}}) do
     comment = Projects.get_comment!(id)
-    if comment.author_id === user.id do
+    if Projects.can_manage_comment(comment, user) do
       Projects.delete_comment(comment)
     else
       {:error, :not_authorized}

@@ -63,6 +63,13 @@ defmodule Taskerito.Projects do
   end
 
   @doc """
+  Returns whether a user can manage a project.
+  """
+  def can_manage_project(%Project{} = project, %User{} = user) do
+    project.author_id == user.id
+  end
+
+  @doc """
   Returns the list of tasks.
   """
   def list_tasks do
@@ -153,6 +160,13 @@ defmodule Taskerito.Projects do
   end
 
   @doc """
+  Returns whether a user can manage a task.
+  """
+  def can_manage_task(%Task{} = task, %User{} = user) do
+    task.author_id == user.id
+  end
+
+  @doc """
   Returns the list of comments.
   """
   def list_comments do
@@ -198,5 +212,12 @@ defmodule Taskerito.Projects do
   """
   def change_comment(%Comment{} = comment, attrs \\ %{}) do
     Comment.changeset(comment, attrs)
+  end
+
+  @doc """
+  Returns whether a user can manage a comment.
+  """
+  def can_manage_comment(%Comment{} = comment, %User{} = user) do
+    comment.author_id == user.id
   end
 end

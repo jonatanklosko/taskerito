@@ -17,7 +17,7 @@ defmodule TaskeritoWeb.Resolvers.Projects do
 
   def update_project(_parent, %{id: id, input: input}, %{context: %{current_user: user}}) do
     project = Projects.get_project!(id)
-    if project.author_id === user.id do
+    if Projects.can_manage_project(project, user) do
       Projects.update_project(project, input)
     else
       {:error, :not_authorized}
