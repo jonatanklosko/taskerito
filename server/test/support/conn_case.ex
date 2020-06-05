@@ -40,4 +40,20 @@ defmodule TaskeritoWeb.ConnCase do
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  # Handle custom tags
+
+  import Taskerito.Factory
+
+  setup context do
+    if context[:signed_in] do
+      user = insert(:user)
+      token = Phoenix.Token.sign(TaskeritoWeb.Endpoint, "user-auth", user.id)
+      conn = context[:conn]
+        |> Plug.Conn.put_req_header("authorization", "Bearer #{token}")
+      {:ok, %{current_user: user, conn: conn}}
+    else
+      :ok
+    end
+  end
 end

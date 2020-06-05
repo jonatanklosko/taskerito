@@ -6,8 +6,14 @@ defmodule Taskerito.Factory do
       email: sequence(:email, &"email-#{&1}@example.com"),
       name: "Sherlock Holmes",
       username: sequence(:username, &"shlomes#{&1}"),
-      password_hash: "password"
+      password_hash: "whatever hash"
     }
+  end
+
+  def set_password(user, password) do
+    user
+    |> Taskerito.Accounts.User.sign_up_changeset(%{password: password})
+    |> Ecto.Changeset.apply_changes()
   end
 
   def project_factory do
