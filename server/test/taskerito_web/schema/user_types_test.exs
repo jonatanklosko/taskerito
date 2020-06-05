@@ -49,6 +49,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     test "returns a list of projects created by the given user", %{conn: conn, current_user: current_user} do
       project = insert(:project, author: current_user)
       insert(:project) # other project
+
       conn = post(conn, "/api", %{"query" => @current_user_query})
 
       assert json_response(conn, 200) == %{
@@ -76,6 +77,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     test "returns a list of tasks created by the given user", %{conn: conn, current_user: current_user} do
       task = insert(:task, author: current_user)
       insert(:task) # other task
+
       conn = post(conn, "/api", %{"query" => @current_user_query})
 
       assert json_response(conn, 200) == %{
@@ -168,6 +170,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
 
     test "returns user and token when successful", %{conn: conn} do
       user = build(:user) |> set_password("password") |> insert
+
       conn = post(conn, "/api", %{
         "query" => @sign_in_mutation,
         "variables" => %{
