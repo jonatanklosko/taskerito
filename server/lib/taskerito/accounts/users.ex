@@ -1,6 +1,6 @@
-defmodule Taskerito.Accounts do
+defmodule Taskerito.Accounts.Users do
   @moduledoc """
-  The Accounts context.
+  The module for User management.
   """
 
   import Ecto.Query, warn: false

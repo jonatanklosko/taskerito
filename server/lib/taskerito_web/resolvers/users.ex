@@ -1,5 +1,5 @@
 defmodule TaskeritoWeb.Resolvers.Users do
-  alias Taskerito.Accounts
+  alias Taskerito.Accounts.Users
 
   def current_user(_parent, _args, %{context: %{current_user: current_user}}) do
     {:ok, current_user}
@@ -8,12 +8,12 @@ defmodule TaskeritoWeb.Resolvers.Users do
   def current_user(_parent, _args, _resolution), do: {:ok, nil}
 
   def sign_up(_parent, %{ input: input }, _resolution) do
-    Accounts.create_user(input)
+    Users.create_user(input)
     |> to_token_payload()
   end
 
   def sign_in(_parent, %{ username: username, password: password }, _resolution) do
-    Accounts.authenticate_by_username_password(username, password)
+    Users.authenticate_by_username_password(username, password)
     |> to_token_payload()
   end
 

@@ -1,5 +1,5 @@
 defmodule TaskeritoWeb.Resolvers.Projects do
-  alias Taskerito.Projects
+  alias Taskerito.Projects.Projects
 
   def list_projects(_parent, _args, _resolution) do
     {:ok, Projects.list_projects()}
