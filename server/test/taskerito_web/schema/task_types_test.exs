@@ -41,15 +41,15 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
 
       conn = post(conn, "/api", %{
         "query" => @task_query,
-        "variables" => %{"id" => Integer.to_string(task.id)}
+        "variables" => %{"id" => to_gql_id(task.id)}
       })
 
       assert json_response(conn, 200) == %{
         "data" => %{
           "task" => %{
-            "id" => Integer.to_string(task.id),
+            "id" => to_gql_id(task.id),
             "name" => task.name,
-            "project" => %{"id" => Integer.to_string(task.project.id)}
+            "project" => %{"id" => to_gql_id(task.project.id)}
           }
         }
       }
@@ -96,7 +96,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @create_task_mutation,
         "variables" => %{
-          "projectId" => Integer.to_string(project.id),
+          "projectId" => to_gql_id(project.id),
           "input" => @valid_input
         }
       })
@@ -109,7 +109,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
             "result" => %{
               "name" => "Eat burrito",
               "author" => %{"username" => current_user.username},
-              "project" => %{"id" => Integer.to_string(project.id)}
+              "project" => %{"id" => to_gql_id(project.id)}
             }
           }
         }
@@ -123,7 +123,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @create_task_mutation,
         "variables" => %{
-          "projectId" => Integer.to_string(project.id),
+          "projectId" => to_gql_id(project.id),
           "input" => @invalid_input
         }
       })
@@ -146,7 +146,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @create_task_mutation,
         "variables" => %{
-          "projectId" => Integer.to_string(project.id),
+          "projectId" => to_gql_id(project.id),
           "input" => @valid_input
         }
       })
@@ -185,7 +185,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @finish_task_mutation,
         "variables" => %{
-          "id" => Integer.to_string(task.id)
+          "id" => to_gql_id(task.id)
         }
       })
 
@@ -219,13 +219,13 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @assign_task_mutation,
         "variables" => %{
-          "id" => Integer.to_string(task.id),
-          "userId" => Integer.to_string(user.id)
+          "id" => to_gql_id(task.id),
+          "userId" => to_gql_id(user.id)
         }
       })
 
       data = json_response(conn, 200)["data"]
-      assert data["assignTask"]["result"]["assignees"] == [%{"id" => Integer.to_string(user.id)}]
+      assert data["assignTask"]["result"]["assignees"] == [%{"id" => to_gql_id(user.id)}]
     end
   end
 
@@ -254,8 +254,8 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       conn = post(conn, "/api", %{
         "query" => @unassign_task_mutation,
         "variables" => %{
-          "id" => Integer.to_string(task.id),
-          "userId" => Integer.to_string(user.id)
+          "id" => to_gql_id(task.id),
+          "userId" => to_gql_id(user.id)
         }
       })
 

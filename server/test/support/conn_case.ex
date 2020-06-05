@@ -56,4 +56,8 @@ defmodule TaskeritoWeb.ConnCase do
       :ok
     end
   end
+
+  def to_gql_id(number) when is_integer(number) do
+    Integer.to_string(number)
+  end
 end

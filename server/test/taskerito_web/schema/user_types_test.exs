@@ -26,7 +26,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       assert json_response(conn, 200) == %{
         "data" => %{
           "currentUser" => %{
-            "id" => Integer.to_string(current_user.id),
+            "id" => to_gql_id(current_user.id),
             "username" => current_user.username
           }
         }
@@ -55,7 +55,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       assert json_response(conn, 200) == %{
         "data" => %{
           "currentUser" => %{
-            "projects" => [%{"id" => Integer.to_string(project.id)}]
+            "projects" => [%{"id" => to_gql_id(project.id)}]
           }
         }
       }
@@ -83,7 +83,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       assert json_response(conn, 200) == %{
         "data" => %{
           "currentUser" => %{
-            "tasks" => [%{"id" => Integer.to_string(task.id)}]
+            "tasks" => [%{"id" => to_gql_id(task.id)}]
           }
         }
       }

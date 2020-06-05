@@ -42,15 +42,15 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
 
       conn = post(conn, "/api", %{
         "query" => @project_query,
-        "variables" => %{"id" => Integer.to_string(project.id)}
+        "variables" => %{"id" => to_gql_id(project.id)}
       })
 
       assert json_response(conn, 200) == %{
         "data" => %{
           "project" => %{
-            "id" => Integer.to_string(project.id),
+            "id" => to_gql_id(project.id),
             "name" => project.name,
-            "tasks" => [%{"id" => Integer.to_string(task.id)}]
+            "tasks" => [%{"id" => to_gql_id(task.id)}]
           }
         }
       }
