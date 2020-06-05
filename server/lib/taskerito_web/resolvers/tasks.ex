@@ -35,7 +35,7 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
     task = Projects.get_task!(id)
     cond do
       task.finished_at != nil -> {:error, :already_finished}
-      Projects.can_manage_task(task, current_user) -> {:error, :not_authorized}
+      !Projects.can_manage_task(task, current_user) -> {:error, :not_authorized}
       true -> Projects.finish_task(task)
     end
   end

@@ -101,7 +101,7 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
     end
 
     @tag :signed_in
-    test "returns errors messages when not successful", %{conn: conn} do
+    test "returns errors messages when data is invalid", %{conn: conn} do
       input = %{
         "name" => "",
         "description" => "Top priority stuff."

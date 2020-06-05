@@ -127,7 +127,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       assert data["signUp"]["result"]["user"]["username"] == "sholmes"
     end
 
-    test "returns error messages when not successful", %{conn: conn} do
+    test "returns error messages when data is invalid", %{conn: conn} do
       input = %{
         "username" => "sholmes",
         "name" => "Sherlock Holmes",
@@ -186,7 +186,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       assert data["signIn"]["result"]["user"]["username"] == user.username
     end
 
-    test "returns error messages when not successful", %{conn: conn} do
+    test "returns error messages when data is invalid", %{conn: conn} do
       conn = post(conn, "/api", %{
         "query" => @sign_in_mutation,
         "variables" => %{
