@@ -62,4 +62,20 @@ defmodule Taskerito.TasksTest do
     task = build(:task)
     assert %Ecto.Changeset{} = Tasks.change_task(task)
   end
+
+  test "assign_task/1 adds the task to user assignments" do
+    user = insert(:user)
+    task = insert(:task)
+    assert {:ok, %Task{}} = Tasks.assign_task(task, user)
+    task = Taskerito.Repo.preload(task, :assignees, force: true)
+    assert Enum.member?(task.assignees, user)
+  end
+
+  test "unassign_task/1 remove the task from user assignments" do
+    user = insert(:user)
+    task = insert(:task, assignees: [user])
+    assert {:ok, %Task{}} = Tasks.unassign_task(task, user)
+    task = Taskerito.Repo.preload(task, :assignees, force: true)
+    assert !Enum.member?(task.assignees, user)
+  end
 end

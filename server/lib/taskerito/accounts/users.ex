@@ -62,7 +62,7 @@ defmodule Taskerito.Accounts.Users do
   @spec authenticate_by_username_password(String.t, String.t) :: {:ok, %User{}} | {:error, term}
   def authenticate_by_username_password(username, password) do
     case Repo.get_by(User, username: username) do
-      nil -> {:error, :not_found} # TODO: how to handle not found payload message
+      nil -> {:error, :not_found}
       user -> Argon2.check_pass(user, password)
     end
   end
