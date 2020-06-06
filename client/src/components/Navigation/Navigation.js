@@ -1,12 +1,23 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import logo from '../Home/logo.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Typography, Grid, Toolbar, LinearProgress } from '@material-ui/core';
+import {
+  Typography,
+  Grid,
+  Toolbar,
+  LinearProgress,
+  Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
+import Projects from '../Projects/Projects';
 import SignOutButton from './SignOutButton';
+import Project from '../Project/Project';
+import NewProject from '../NewProject/NewProject';
+import NewTask from '../NewTask/NewTask';
 
 const useStyles = makeStyles((theme) => ({
   titleTypography: {
@@ -14,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
   },
   logo: {
     height: '48px',
-    marginRight: theme.spacing(1),
   },
   content: {
     padding: theme.spacing(3),
@@ -44,7 +54,7 @@ function Navigation() {
   return (
     <>
       <Toolbar>
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" spacing={1}>
           <Grid item>
             <img src={logo} alt="logo" className={classes.logo} />
           </Grid>
@@ -53,7 +63,18 @@ function Navigation() {
               Taskerito
             </Typography>
           </Grid>
-          {currentUser && <SignOutButton />}
+          {currentUser && (
+            <>
+              <Grid item>
+                <Button size="small" component={RouterLink} to="/projects">
+                  Projects
+                </Button>
+              </Grid>
+              <Grid item>
+                <SignOutButton />
+              </Grid>
+            </>
+          )}
         </Grid>
       </Toolbar>
       <div className={classes.content}>
@@ -63,6 +84,18 @@ function Navigation() {
           </Route>
           <Route exact path="/sign-up">
             <SignUp />
+          </Route>
+          <Route exact path="/projects">
+            <Projects />
+          </Route>
+          <Route exact path="/projects/new">
+            <NewProject />
+          </Route>
+          <Route exact path="/projects/:projectId/tasks/new">
+            <NewTask />
+          </Route>
+          <Route exact path="/projects/:id">
+            <Project />
           </Route>
           <Redirect to="/" />
         </Switch>

@@ -17,7 +17,7 @@ const SIGN_IN = gql`
   }
 `;
 
-function SignUp() {
+function SignIn() {
   const history = useHistory();
   const [signIn, { data, loading }] = useMutation(SIGN_IN, {
     onCompleted: ({ signIn: { successful, result } }) => {
@@ -41,4 +41,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignIn;

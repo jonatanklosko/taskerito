@@ -9,3 +9,7 @@ export function optionalGet(object, path) {
       object
     );
 }
+
+export function partition(xs, fn) {
+  return [xs.filter(fn), xs.filter((x) => !fn(x))];
+}
