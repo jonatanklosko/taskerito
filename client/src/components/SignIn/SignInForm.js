@@ -1,17 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Grid, Button, TextField } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { useForm } from 'react-hook-form';
 import { optionalGet } from '../../lib/utils';
 
-function SignUpForm({ disabled, onSubmit, validationErrors }) {
-  const { register, handleSubmit, errors, setError } = useForm();
-
-  useEffect(() => {
-    if (!validationErrors) return;
-    validationErrors.forEach(({ field, code, message }) => {
-      setError(field, code, message);
-    });
-  }, [validationErrors, setError]);
+function SignInForm({ disabled, onSubmit, failed }) {
+  const { register, handleSubmit, errors } = useForm();
 
   function handleValidSubmit(data) {
     onSubmit(data);
@@ -20,6 +14,11 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
   return (
     <form onSubmit={handleSubmit(handleValidSubmit)}>
       <Grid container direction="column" spacing={2}>
+        {failed && (
+          <Grid item>
+            <Alert severity="error">Invalid combination, sorry!</Alert>
+          </Grid>
+        )}
         <Grid item>
           <TextField
             fullWidth
@@ -38,48 +37,12 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
         <Grid item>
           <TextField
             fullWidth
-            label="Name"
-            variant="outlined"
-            name="name"
-            inputRef={register({
-              required: 'Name is required.',
-            })}
-            error={!!errors.name}
-            helperText={optionalGet(errors, 'name.message')}
-            disabled={disabled}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            fullWidth
-            label="Email"
-            variant="outlined"
-            name="email"
-            inputRef={register({
-              required: 'Email is required.',
-              pattern: {
-                value: /^.+@.+\..+$/i,
-                message: 'Invalid email.',
-              },
-            })}
-            error={!!errors.email}
-            helperText={optionalGet(errors, 'email.message')}
-            disabled={disabled}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            fullWidth
             label="Password"
             type="password"
             variant="outlined"
             name="password"
             inputRef={register({
               required: 'Password is required.',
-              minLength: {
-                value: 8,
-                message: 'Password must be at least 8 characters long.',
-              },
             })}
             error={!!errors.password}
             helperText={optionalGet(errors, 'password.message')}
@@ -101,4 +64,4 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
   );
 }
 
-export default SignUpForm;
+export default SignInForm;

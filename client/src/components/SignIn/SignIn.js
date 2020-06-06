@@ -1,17 +1,44 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { useHistory } from 'react-router-dom';
+import { useMutation, gql } from '@apollo/client';
+import signInImage from './sign-in.svg';
+import { storeToken } from '../../lib/auth';
+import CenteredFormContainer from '../CenteredFormContainer/CenteredFormContainer';
+import SignInForm from './SignInForm';
 
-const useStyles = makeStyles((theme) => ({}));
+const SIGN_IN = gql`
+  mutation SignIn($username: String!, $password: String!) {
+    signIn(username: $username, password: $password) {
+      successful
+      result {
+        token
+      }
+    }
+  }
+`;
 
-function SignIn() {
-  const classes = useStyles();
+function SignUp() {
+  const history = useHistory();
+  const [signIn, { data, loading }] = useMutation(SIGN_IN, {
+    onCompleted: ({ signIn: { successful, result } }) => {
+      if (successful) {
+        storeToken(result.token);
+        history.push('/');
+      }
+    },
+  });
 
   return (
-    <div>
-      <Typography variant="h5">Sign in</Typography>
-    </div>
+    <CenteredFormContainer svgImage={signInImage} title="Sign in">
+      <SignInForm
+        disabled={loading}
+        failed={data && !data.signIn.successful}
+        onSubmit={({ username, password }) =>
+          signIn({ variables: { username, password } })
+        }
+      />
+    </CenteredFormContainer>
   );
 }
 
-export default SignIn;
+export default SignUp;
