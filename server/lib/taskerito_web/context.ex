@@ -3,6 +3,7 @@ defmodule TaskeritoWeb.Context do
 
   import Plug.Conn
   alias Taskerito.Accounts.Users
+  alias TaskeritoWeb.Auth
 
   def init(opts), do: opts
 
@@ -25,8 +26,7 @@ defmodule TaskeritoWeb.Context do
   end
 
   defp authorize(token) do
-    with {:ok, user_id} <-
-           Phoenix.Token.verify(TaskeritoWeb.Endpoint, "user-auth", token, max_age: 86400) do
+    with {:ok, user_id} <- Auth.verify_token(token) do
       case Users.get_user(user_id) do
         nil -> {:error, "invalid authorization token"}
         user -> {:ok, user}

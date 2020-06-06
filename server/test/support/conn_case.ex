@@ -48,7 +48,7 @@ defmodule TaskeritoWeb.ConnCase do
   setup context do
     if context[:signed_in] do
       user = insert(:user)
-      token = Phoenix.Token.sign(TaskeritoWeb.Endpoint, "user-auth", user.id)
+      token = TaskeritoWeb.Auth.generate_token(user.id)
 
       conn =
         context[:conn]

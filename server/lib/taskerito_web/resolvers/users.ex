@@ -1,5 +1,6 @@
 defmodule TaskeritoWeb.Resolvers.Users do
   alias Taskerito.Accounts.Users
+  alias TaskeritoWeb.Auth
 
   def current_user(_parent, _args, %{context: %{current_user: current_user}}) do
     {:ok, current_user}
@@ -18,7 +19,7 @@ defmodule TaskeritoWeb.Resolvers.Users do
   end
 
   defp to_token_payload({:ok, user}) do
-    token = Phoenix.Token.sign(TaskeritoWeb.Endpoint, "user-auth", user.id)
+    token = Auth.generate_token(user.id)
     {:ok, %{token: token, user: user}}
   end
 
