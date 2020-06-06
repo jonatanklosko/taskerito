@@ -9,7 +9,7 @@ function SignIn() {
 
   return (
     <div>
-      <Typography variant="h5">Sign up</Typography>
+      <Typography variant="h5">Sign in</Typography>
     </div>
   );
 }
