@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import { Link as RouterLink } from 'react-router-dom';
 import { Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -53,7 +54,13 @@ function Home() {
         </Grid>
         <Grid item container justify="center" spacing={1}>
           <Grid item>
-            <Button size="large" variant="outlined" color="primary">
+            <Button
+              size="large"
+              variant="outlined"
+              color="primary"
+              component={RouterLink}
+              to="/sign-up"
+            >
               Sign up
             </Button>
           </Grid>
@@ -63,6 +70,8 @@ function Home() {
               variant="contained"
               disableElevation
               color="primary"
+              component={RouterLink}
+              to="/sign-in"
             >
               Sign in
             </Button>
