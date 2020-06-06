@@ -23,6 +23,7 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="username"
             label="Username"
             variant="outlined"
             name="username"
@@ -38,6 +39,7 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="name"
             label="Name"
             variant="outlined"
             name="name"
@@ -52,6 +54,7 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="email"
             label="Email"
             variant="outlined"
             name="email"
@@ -70,6 +73,7 @@ function SignUpForm({ disabled, onSubmit, validationErrors }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="new-password"
             label="Password"
             type="password"
             variant="outlined"

@@ -1,10 +1,12 @@
 import React from 'react';
+import { useQuery, gql } from '@apollo/client';
 import logo from '../Home/logo.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { Typography, Grid, Toolbar } from '@material-ui/core';
+import { Typography, Grid, Toolbar, LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
+import SignOutButton from './SignOutButton';
 
 const useStyles = makeStyles((theme) => ({
   titleTypography: {
@@ -17,10 +19,27 @@ const useStyles = makeStyles((theme) => ({
   content: {
     padding: theme.spacing(3),
   },
+  grow: {
+    flexGrow: 1,
+  },
 }));
+
+const CURRENT_USER = gql`
+  query CurrentUser {
+    currentUser {
+      id
+      name
+    }
+  }
+`;
 
 function Navigation() {
   const classes = useStyles();
+  const { data, loading, error } = useQuery(CURRENT_USER);
+
+  if (error) return 'Something went wrong.';
+  if (loading) return <LinearProgress />;
+  const { currentUser } = data;
 
   return (
     <>
@@ -29,15 +48,12 @@ function Navigation() {
           <Grid item>
             <img src={logo} alt="logo" className={classes.logo} />
           </Grid>
-          <Grid item>
-            <Typography
-              variant="h3"
-              className={classes.titleTypography}
-              align="center"
-            >
+          <Grid item className={classes.grow}>
+            <Typography variant="h3" className={classes.titleTypography}>
               Taskerito
             </Typography>
           </Grid>
+          {currentUser && <SignOutButton />}
         </Grid>
       </Toolbar>
       <div className={classes.content}>

@@ -22,6 +22,7 @@ function SignInForm({ disabled, onSubmit, failed }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="username"
             label="Username"
             variant="outlined"
             name="username"
@@ -37,6 +38,7 @@ function SignInForm({ disabled, onSubmit, failed }) {
         <Grid item>
           <TextField
             fullWidth
+            autoComplete="current-password"
             label="Password"
             type="password"
             variant="outlined"
