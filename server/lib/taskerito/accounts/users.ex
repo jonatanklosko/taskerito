@@ -59,7 +59,8 @@ defmodule Taskerito.Accounts.Users do
   @doc """
   Gets a user by username and authenticates him by password.
   """
-  @spec authenticate_by_username_password(String.t, String.t) :: {:ok, %User{}} | {:error, term}
+  @spec authenticate_by_username_password(String.t(), String.t()) ::
+          {:ok, %User{}} | {:error, term}
   def authenticate_by_username_password(username, password) do
     case Repo.get_by(User, username: username) do
       nil -> {:error, :not_found}

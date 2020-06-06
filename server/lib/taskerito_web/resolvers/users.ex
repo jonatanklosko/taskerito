@@ -7,12 +7,12 @@ defmodule TaskeritoWeb.Resolvers.Users do
 
   def current_user(_parent, _args, _resolution), do: {:ok, nil}
 
-  def sign_up(_parent, %{ input: input }, _resolution) do
+  def sign_up(_parent, %{input: input}, _resolution) do
     Users.create_user(input)
     |> to_token_payload()
   end
 
-  def sign_in(_parent, %{ username: username, password: password }, _resolution) do
+  def sign_in(_parent, %{username: username, password: password}, _resolution) do
     Users.authenticate_by_username_password(username, password)
     |> to_token_payload()
   end

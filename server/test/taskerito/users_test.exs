@@ -6,14 +6,23 @@ defmodule Taskerito.Accounts.UsersTest do
 
   import Taskerito.Factory
 
-  @valid_attrs %{email: "some email", name: "some name", username: "some username", password: "password"}
-  @update_attrs %{email: "some updated email", name: "some updated name", username: "some updated username"}
+  @valid_attrs %{
+    email: "some email",
+    name: "some name",
+    username: "some username",
+    password: "password"
+  }
+  @update_attrs %{
+    email: "some updated email",
+    name: "some updated name",
+    username: "some updated username"
+  }
   @invalid_attrs %{email: nil, name: nil, username: nil}
 
   test "list_users/0 returns all users" do
     users = insert_list(5, :user)
-    actual_user_ids = Users.list_users() |> Enum.map(&(&1.id))
-    expected_user_ids = users |> Enum.map(&(&1.id))
+    actual_user_ids = Users.list_users() |> Enum.map(& &1.id)
+    expected_user_ids = users |> Enum.map(& &1.id)
     assert actual_user_ids == expected_user_ids
   end
 

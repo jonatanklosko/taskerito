@@ -24,13 +24,13 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
       conn = post(conn, "/api", %{"query" => @current_user_query})
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "currentUser" => %{
-            "id" => to_gql_id(current_user.id),
-            "username" => current_user.username
-          }
-        }
-      }
+               "data" => %{
+                 "currentUser" => %{
+                   "id" => to_gql_id(current_user.id),
+                   "username" => current_user.username
+                 }
+               }
+             }
     end
   end
 
@@ -46,19 +46,23 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     """
 
     @tag :signed_in
-    test "returns a list of projects created by the given user", %{conn: conn, current_user: current_user} do
+    test "returns a list of projects created by the given user", %{
+      conn: conn,
+      current_user: current_user
+    } do
       project = insert(:project, author: current_user)
-      insert(:project) # other project
+      # other project
+      insert(:project)
 
       conn = post(conn, "/api", %{"query" => @current_user_query})
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "currentUser" => %{
-            "projects" => [%{"id" => to_gql_id(project.id)}]
-          }
-        }
-      }
+               "data" => %{
+                 "currentUser" => %{
+                   "projects" => [%{"id" => to_gql_id(project.id)}]
+                 }
+               }
+             }
     end
   end
 
@@ -74,19 +78,23 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     """
 
     @tag :signed_in
-    test "returns a list of tasks created by the given user", %{conn: conn, current_user: current_user} do
+    test "returns a list of tasks created by the given user", %{
+      conn: conn,
+      current_user: current_user
+    } do
       task = insert(:task, author: current_user)
-      insert(:task) # other task
+      # other task
+      insert(:task)
 
       conn = post(conn, "/api", %{"query" => @current_user_query})
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "currentUser" => %{
-            "tasks" => [%{"id" => to_gql_id(task.id)}]
-          }
-        }
-      }
+               "data" => %{
+                 "currentUser" => %{
+                   "tasks" => [%{"id" => to_gql_id(task.id)}]
+                 }
+               }
+             }
     end
   end
 
@@ -115,10 +123,12 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
         "password" => "password",
         "email" => "sholmes@example.com"
       }
-      conn = post(conn, "/api", %{
-        "query" => @sign_up_mutation,
-        "variables" => %{"input" => input}
-      })
+
+      conn =
+        post(conn, "/api", %{
+          "query" => @sign_up_mutation,
+          "variables" => %{"input" => input}
+        })
 
       data = json_response(conn, 200)["data"]
       assert data["signUp"]["successful"] == true
@@ -133,20 +143,22 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
         "name" => "Sherlock Holmes",
         "password" => "password"
       }
-      conn = post(conn, "/api", %{
-        "query" => @sign_up_mutation,
-        "variables" => %{"input" => input}
-      })
+
+      conn =
+        post(conn, "/api", %{
+          "query" => @sign_up_mutation,
+          "variables" => %{"input" => input}
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "signUp" => %{
-            "successful" => false,
-            "messages" => [%{"message" => "can't be blank"}],
-            "result" => nil
-          }
-        }
-      }
+               "data" => %{
+                 "signUp" => %{
+                   "successful" => false,
+                   "messages" => [%{"message" => "can't be blank"}],
+                   "result" => nil
+                 }
+               }
+             }
     end
   end
 
@@ -171,13 +183,14 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     test "returns user and token when successful", %{conn: conn} do
       user = build(:user) |> set_password("password") |> insert
 
-      conn = post(conn, "/api", %{
-        "query" => @sign_in_mutation,
-        "variables" => %{
-          "username" => user.username,
-          "password" => "password"
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @sign_in_mutation,
+          "variables" => %{
+            "username" => user.username,
+            "password" => "password"
+          }
+        })
 
       data = json_response(conn, 200)["data"]
       assert data["signIn"]["successful"] == true
@@ -187,23 +200,24 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     end
 
     test "returns error messages when data is invalid", %{conn: conn} do
-      conn = post(conn, "/api", %{
-        "query" => @sign_in_mutation,
-        "variables" => %{
-          "username" => "nonexistent",
-          "password" => "whatever"
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @sign_in_mutation,
+          "variables" => %{
+            "username" => "nonexistent",
+            "password" => "whatever"
+          }
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "signIn" => %{
-            "successful" => false,
-            "messages" => [%{"message" => "not_found"}],
-            "result" => nil
-          }
-        }
-      }
+               "data" => %{
+                 "signIn" => %{
+                   "successful" => false,
+                   "messages" => [%{"message" => "not_found"}],
+                   "result" => nil
+                 }
+               }
+             }
     end
   end
 end

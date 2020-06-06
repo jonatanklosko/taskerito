@@ -14,15 +14,19 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
     field :finished_at, :datetime
+
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
+
     field :project, non_null(:project) do
       resolve dataloader(Taskerito.Repo)
     end
+
     field :comments, non_null(list_of(non_null(:comment))) do
       resolve dataloader(Taskerito.Repo)
     end
+
     field :assignees, non_null(list_of(non_null(:user))) do
       resolve dataloader(Taskerito.Repo)
     end

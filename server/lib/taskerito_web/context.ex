@@ -17,7 +17,7 @@ defmodule TaskeritoWeb.Context do
 
   defp build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-    {:ok, current_user} <- authorize(token) do
+         {:ok, current_user} <- authorize(token) do
       %{current_user: current_user}
     else
       _ -> %{}
@@ -25,7 +25,8 @@ defmodule TaskeritoWeb.Context do
   end
 
   defp authorize(token) do
-    with {:ok, user_id} <- Phoenix.Token.verify(TaskeritoWeb.Endpoint, "user-auth", token, max_age: 86400) do
+    with {:ok, user_id} <-
+           Phoenix.Token.verify(TaskeritoWeb.Endpoint, "user-auth", token, max_age: 86400) do
       case Users.get_user(user_id) do
         nil -> {:error, "invalid authorization token"}
         user -> {:ok, user}

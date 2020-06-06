@@ -12,9 +12,11 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
     field :description, non_null(:string)
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
+
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
+
     field :tasks, non_null(list_of(non_null(:task))) do
       resolve dataloader(Taskerito.Repo)
     end

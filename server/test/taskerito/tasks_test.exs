@@ -6,13 +6,17 @@ defmodule Taskerito.TasksTest do
   alias Taskerito.Projects.{Task, Tasks}
 
   @valid_attrs %{description: "some description", name: "some name", priority: 42}
-  @update_attrs %{description: "some updated description", name: "some updated name", priority: 43}
+  @update_attrs %{
+    description: "some updated description",
+    name: "some updated name",
+    priority: 43
+  }
   @invalid_attrs %{description: nil, name: nil, priority: nil}
 
   test "list_tasks/0 returns all tasks" do
     tasks = insert_list(5, :task)
-    actual_task_ids = Tasks.list_tasks() |> Enum.map(&(&1.id))
-    expected_task_ids = tasks |> Enum.map(&(&1.id))
+    actual_task_ids = Tasks.list_tasks() |> Enum.map(& &1.id)
+    expected_task_ids = tasks |> Enum.map(& &1.id)
     assert actual_task_ids == expected_task_ids
   end
 

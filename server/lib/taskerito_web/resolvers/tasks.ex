@@ -10,8 +10,11 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
     {:ok, Tasks.get_task(id)}
   end
 
-  def create_task(_parent, %{project_id: proj_id, input: input}, %{context: %{current_user: current_user}}) do
+  def create_task(_parent, %{project_id: proj_id, input: input}, %{
+        context: %{current_user: current_user}
+      }) do
     project = Projects.get_project!(proj_id)
+
     if Projects.can_manage_project(project, current_user) do
       Tasks.create_task(current_user, project, input)
     else
@@ -23,6 +26,7 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
 
   def update_task(_parent, %{id: id, input: input}, %{context: %{current_user: current_user}}) do
     task = Tasks.get_task!(id)
+
     if Tasks.can_manage_task(task, current_user) do
       Tasks.update_task(task, input)
     else
@@ -34,6 +38,7 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
 
   def finish_task(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     task = Tasks.get_task!(id)
+
     cond do
       task.finished_at != nil -> {:error, :already_finished}
       !Tasks.can_manage_task(task, current_user) -> {:error, :not_authorized}
@@ -46,6 +51,7 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
   def assign_task(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     task = Tasks.get_task!(id)
     user = Users.get_user!(user_id)
+
     if Tasks.can_manage_task(task, current_user) do
       Tasks.assign_task(task, user)
     else
@@ -55,9 +61,12 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
 
   def assign_task(_parent, _args, _resolution), do: {:error, :not_authorized}
 
-  def unassign_task(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
+  def unassign_task(_parent, %{id: id, user_id: user_id}, %{
+        context: %{current_user: current_user}
+      }) do
     task = Tasks.get_task!(id)
     user = Users.get_user!(user_id)
+
     if Tasks.can_manage_task(task, current_user) do
       Tasks.unassign_task(task, user)
     else

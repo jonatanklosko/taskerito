@@ -17,6 +17,7 @@ defmodule TaskeritoWeb.Resolvers.Projects do
 
   def update_project(_parent, %{id: id, input: input}, %{context: %{current_user: current_user}}) do
     project = Projects.get_project!(id)
+
     if Projects.can_manage_project(project, current_user) do
       Projects.update_project(project, input)
     else

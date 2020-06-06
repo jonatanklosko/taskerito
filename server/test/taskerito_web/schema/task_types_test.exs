@@ -39,20 +39,21 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
     test "returns a list of all projects", %{conn: conn} do
       task = insert(:task)
 
-      conn = post(conn, "/api", %{
-        "query" => @task_query,
-        "variables" => %{"id" => to_gql_id(task.id)}
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @task_query,
+          "variables" => %{"id" => to_gql_id(task.id)}
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "task" => %{
-            "id" => to_gql_id(task.id),
-            "name" => task.name,
-            "project" => %{"id" => to_gql_id(task.project.id)}
-          }
-        }
-      }
+               "data" => %{
+                 "task" => %{
+                   "id" => to_gql_id(task.id),
+                   "name" => task.name,
+                   "project" => %{"id" => to_gql_id(task.project.id)}
+                 }
+               }
+             }
     end
   end
 
@@ -93,73 +94,76 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
     test "returns task when successful", %{conn: conn, current_user: current_user} do
       project = insert(:project, author: current_user)
 
-      conn = post(conn, "/api", %{
-        "query" => @create_task_mutation,
-        "variables" => %{
-          "projectId" => to_gql_id(project.id),
-          "input" => @valid_input
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @create_task_mutation,
+          "variables" => %{
+            "projectId" => to_gql_id(project.id),
+            "input" => @valid_input
+          }
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "createTask" => %{
-            "successful" => true,
-            "messages" => [],
-            "result" => %{
-              "name" => "Eat burrito",
-              "author" => %{"username" => current_user.username},
-              "project" => %{"id" => to_gql_id(project.id)}
-            }
-          }
-        }
-      }
+               "data" => %{
+                 "createTask" => %{
+                   "successful" => true,
+                   "messages" => [],
+                   "result" => %{
+                     "name" => "Eat burrito",
+                     "author" => %{"username" => current_user.username},
+                     "project" => %{"id" => to_gql_id(project.id)}
+                   }
+                 }
+               }
+             }
     end
 
     @tag :signed_in
     test "returns errors messages when data is invalid", %{conn: conn, current_user: current_user} do
       project = insert(:project, author: current_user)
 
-      conn = post(conn, "/api", %{
-        "query" => @create_task_mutation,
-        "variables" => %{
-          "projectId" => to_gql_id(project.id),
-          "input" => @invalid_input
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @create_task_mutation,
+          "variables" => %{
+            "projectId" => to_gql_id(project.id),
+            "input" => @invalid_input
+          }
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "createTask" => %{
-            "successful" => false,
-            "messages" => [%{"message" => "can't be blank"}],
-            "result" => nil
-          }
-        }
-      }
+               "data" => %{
+                 "createTask" => %{
+                   "successful" => false,
+                   "messages" => [%{"message" => "can't be blank"}],
+                   "result" => nil
+                 }
+               }
+             }
     end
 
     @tag :signed_in
     test "returns errors messages when user doesn't own the project", %{conn: conn} do
       project = insert(:project)
 
-      conn = post(conn, "/api", %{
-        "query" => @create_task_mutation,
-        "variables" => %{
-          "projectId" => to_gql_id(project.id),
-          "input" => @valid_input
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @create_task_mutation,
+          "variables" => %{
+            "projectId" => to_gql_id(project.id),
+            "input" => @valid_input
+          }
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "createTask" => %{
-            "successful" => false,
-            "messages" => [%{"message" => "not_authorized"}],
-            "result" => nil
-          }
-        }
-      }
+               "data" => %{
+                 "createTask" => %{
+                   "successful" => false,
+                   "messages" => [%{"message" => "not_authorized"}],
+                   "result" => nil
+                 }
+               }
+             }
     end
   end
 
@@ -182,12 +186,13 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
     test "returns task when successful", %{conn: conn, current_user: current_user} do
       task = insert(:task, author: current_user)
 
-      conn = post(conn, "/api", %{
-        "query" => @finish_task_mutation,
-        "variables" => %{
-          "id" => to_gql_id(task.id)
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @finish_task_mutation,
+          "variables" => %{
+            "id" => to_gql_id(task.id)
+          }
+        })
 
       data = json_response(conn, 200)["data"]
       assert data["finishTask"]["result"]["finishedAt"] != nil
@@ -216,13 +221,14 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       task = insert(:task, author: current_user)
       user = insert(:user)
 
-      conn = post(conn, "/api", %{
-        "query" => @assign_task_mutation,
-        "variables" => %{
-          "id" => to_gql_id(task.id),
-          "userId" => to_gql_id(user.id)
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @assign_task_mutation,
+          "variables" => %{
+            "id" => to_gql_id(task.id),
+            "userId" => to_gql_id(user.id)
+          }
+        })
 
       data = json_response(conn, 200)["data"]
       assert data["assignTask"]["result"]["assignees"] == [%{"id" => to_gql_id(user.id)}]
@@ -251,13 +257,14 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
       user = insert(:user)
       task = insert(:task, author: current_user, assignees: [user])
 
-      conn = post(conn, "/api", %{
-        "query" => @unassign_task_mutation,
-        "variables" => %{
-          "id" => to_gql_id(task.id),
-          "userId" => to_gql_id(user.id)
-        }
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @unassign_task_mutation,
+          "variables" => %{
+            "id" => to_gql_id(task.id),
+            "userId" => to_gql_id(user.id)
+          }
+        })
 
       data = json_response(conn, 200)["data"]
       assert data["unassignTask"]["result"]["assignees"] == []

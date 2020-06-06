@@ -11,8 +11,8 @@ defmodule Taskerito.ProjectsTest do
 
   test "list_projects/0 returns all projects" do
     projects = insert_list(5, :project)
-    actual_project_ids = Projects.list_projects() |> Enum.map(&(&1.id))
-    expected_project_ids = projects |> Enum.map(&(&1.id))
+    actual_project_ids = Projects.list_projects() |> Enum.map(& &1.id)
+    expected_project_ids = projects |> Enum.map(& &1.id)
     assert actual_project_ids == expected_project_ids
   end
 

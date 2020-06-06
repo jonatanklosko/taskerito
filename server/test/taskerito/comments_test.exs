@@ -11,8 +11,8 @@ defmodule Taskerito.CommentsTest do
 
   test "list_comments/0 returns all comments" do
     comments = insert_list(5, :comment)
-    actual_comment_ids = Comments.list_comments() |> Enum.map(&(&1.id))
-    expected_comment_ids = comments |> Enum.map(&(&1.id))
+    actual_comment_ids = Comments.list_comments() |> Enum.map(& &1.id)
+    expected_comment_ids = comments |> Enum.map(& &1.id)
     assert actual_comment_ids == expected_comment_ids
   end
 

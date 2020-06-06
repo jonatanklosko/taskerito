@@ -69,7 +69,7 @@ defmodule Taskerito.Projects.Tasks do
   def finish_task(%Task{} = task) do
     task
     |> Ecto.Changeset.change()
-    |> Ecto.Changeset.put_change(:finished_at, DateTime.truncate(DateTime.utc_now, :second))
+    |> Ecto.Changeset.put_change(:finished_at, DateTime.truncate(DateTime.utc_now(), :second))
     |> Repo.update()
   end
 
@@ -90,7 +90,7 @@ defmodule Taskerito.Projects.Tasks do
   """
   def unassign_task(%Task{} = task, %User{} = user) do
     task = Repo.preload(task, :assignees)
-    assignees = Enum.filter(task.assignees, fn (assignee) -> assignee.id != user.id end)
+    assignees = Enum.filter(task.assignees, fn assignee -> assignee.id != user.id end)
 
     task
     |> Ecto.Changeset.change()

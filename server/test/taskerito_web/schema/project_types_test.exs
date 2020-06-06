@@ -40,20 +40,21 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
       project = insert(:project)
       task = insert(:task, project: project)
 
-      conn = post(conn, "/api", %{
-        "query" => @project_query,
-        "variables" => %{"id" => to_gql_id(project.id)}
-      })
+      conn =
+        post(conn, "/api", %{
+          "query" => @project_query,
+          "variables" => %{"id" => to_gql_id(project.id)}
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "project" => %{
-            "id" => to_gql_id(project.id),
-            "name" => project.name,
-            "tasks" => [%{"id" => to_gql_id(task.id)}]
-          }
-        }
-      }
+               "data" => %{
+                 "project" => %{
+                   "id" => to_gql_id(project.id),
+                   "name" => project.name,
+                   "tasks" => [%{"id" => to_gql_id(task.id)}]
+                 }
+               }
+             }
     end
   end
 
@@ -81,23 +82,25 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
         "name" => "Project Y",
         "description" => "Top priority stuff."
       }
-      conn = post(conn, "/api", %{
-        "query" => @create_project_mutation,
-        "variables" => %{"input" => input}
-      })
+
+      conn =
+        post(conn, "/api", %{
+          "query" => @create_project_mutation,
+          "variables" => %{"input" => input}
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "createProject" => %{
-            "successful" => true,
-            "messages" => [],
-            "result" => %{
-              "name" => "Project Y",
-              "author" => %{"username" => current_user.username}
-            }
-          }
-        }
-      }
+               "data" => %{
+                 "createProject" => %{
+                   "successful" => true,
+                   "messages" => [],
+                   "result" => %{
+                     "name" => "Project Y",
+                     "author" => %{"username" => current_user.username}
+                   }
+                 }
+               }
+             }
     end
 
     @tag :signed_in
@@ -106,20 +109,22 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
         "name" => "",
         "description" => "Top priority stuff."
       }
-      conn = post(conn, "/api", %{
-        "query" => @create_project_mutation,
-        "variables" => %{"input" => input}
-      })
+
+      conn =
+        post(conn, "/api", %{
+          "query" => @create_project_mutation,
+          "variables" => %{"input" => input}
+        })
 
       assert json_response(conn, 200) == %{
-        "data" => %{
-          "createProject" => %{
-            "successful" => false,
-            "messages" => [%{"message" => "can't be blank"}],
-            "result" => nil
-          }
-        }
-      }
+               "data" => %{
+                 "createProject" => %{
+                   "successful" => false,
+                   "messages" => [%{"message" => "can't be blank"}],
+                   "result" => nil
+                 }
+               }
+             }
     end
   end
 end

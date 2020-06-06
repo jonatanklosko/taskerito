@@ -1,7 +1,9 @@
 defmodule TaskeritoWeb.Resolvers.Comments do
   alias Taskerito.Projects.{Tasks, Comments}
 
-  def create_comment(_parent, %{task_id: task_id, input: input}, %{context: %{current_user: current_user}}) do
+  def create_comment(_parent, %{task_id: task_id, input: input}, %{
+        context: %{current_user: current_user}
+      }) do
     task = Tasks.get_task!(task_id)
     Comments.create_comment(current_user, task, input)
   end
@@ -10,6 +12,7 @@ defmodule TaskeritoWeb.Resolvers.Comments do
 
   def update_comment(_parent, %{id: id, input: input}, %{context: %{current_user: current_user}}) do
     comment = Comments.get_comment!(id)
+
     if Comments.can_manage_comment(comment, current_user) do
       Comments.update_comment(comment, input)
     else
@@ -21,6 +24,7 @@ defmodule TaskeritoWeb.Resolvers.Comments do
 
   def delete_comment(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
     comment = Comments.get_comment!(id)
+
     if Comments.can_manage_comment(comment, current_user) do
       Comments.delete_comment(comment)
     else
