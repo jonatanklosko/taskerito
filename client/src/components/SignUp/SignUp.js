@@ -1,9 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
-import { Typography, Grid, Button, TextField } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SignUpForm from './SignUpForm';
 import welcome from './welcome.svg';
+import { optionalGet } from '../../lib/utils';
+import { storeToken } from '../../lib/auth';
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -25,6 +28,11 @@ const SIGN_UP = gql`
   mutation SignUp($input: SignUpInput!) {
     signUp(input: $input) {
       successful
+      messages {
+        field
+        message
+        code
+      }
       result {
         token
       }
@@ -34,13 +42,20 @@ const SIGN_UP = gql`
 
 function SignUp() {
   const classes = useStyles();
-  const [signUp, { data }] = useMutation(SIGN_UP);
-  console.log(data);
+  const history = useHistory();
+  const [signUp, { data, loading }] = useMutation(SIGN_UP, {
+    onCompleted: ({ signUp: { successful, result } }) => {
+      if (successful) {
+        storeToken(result.token);
+        history.push('/');
+      }
+    },
+  });
 
   return (
     <Grid container direction="column" spacing={3} alignItems="center">
       <Grid item>
-        <img src={welcome} className={classes.image} />
+        <img src={welcome} alt="" className={classes.image} />
       </Grid>
       <Grid item className={classes.content}>
         <Grid container direction="column" alignItems="flex-start" spacing={2}>
@@ -49,6 +64,8 @@ function SignUp() {
           </Grid>
           <Grid item className={classes.formContainer}>
             <SignUpForm
+              disabled={loading}
+              validationErrors={optionalGet(data, 'signUp.messages')}
               onSubmit={(data) => signUp({ variables: { input: data } })}
             />
           </Grid>

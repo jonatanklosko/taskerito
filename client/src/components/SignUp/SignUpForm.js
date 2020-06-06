@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Button, TextField } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { optionalGet } from '../../lib/utils';
 
-function SignUpForm({ onSubmit }) {
-  const { register, handleSubmit, errors } = useForm();
+function SignUpForm({ disabled, onSubmit, validationErrors }) {
+  const { register, handleSubmit, errors, setError } = useForm();
+
+  useEffect(() => {
+    if (!validationErrors) return;
+    validationErrors.forEach(({ field, code, message }) => {
+      setError(field, code, message);
+    });
+  }, [validationErrors]);
 
   function handleValidSubmit(data) {
     onSubmit(data);
@@ -25,6 +32,7 @@ function SignUpForm({ onSubmit }) {
             })}
             error={!!errors.username}
             helperText={optionalGet(errors, 'username.message')}
+            disabled={disabled}
           />
         </Grid>
         <Grid item>
@@ -38,6 +46,7 @@ function SignUpForm({ onSubmit }) {
             })}
             error={!!errors.name}
             helperText={optionalGet(errors, 'name.message')}
+            disabled={disabled}
           />
         </Grid>
         <Grid item>
@@ -55,6 +64,7 @@ function SignUpForm({ onSubmit }) {
             })}
             error={!!errors.email}
             helperText={optionalGet(errors, 'email.message')}
+            disabled={disabled}
           />
         </Grid>
         <Grid item>
@@ -73,10 +83,16 @@ function SignUpForm({ onSubmit }) {
             })}
             error={!!errors.password}
             helperText={optionalGet(errors, 'password.message')}
+            disabled={disabled}
           />
         </Grid>
         <Grid item>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={disabled}
+          >
             Let's go!
           </Button>
         </Grid>
