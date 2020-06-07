@@ -35,36 +35,36 @@ function Navigation() {
       </Route>
       <Route>
         <Layout currentUser={currentUser}>
-          <Switch>
-            {!currentUser
-              ? [
-                  <Route exact path="/sign-in">
-                    <SignIn />
-                  </Route>,
-                  <Route exact path="/sign-up">
-                    <SignUp />
-                  </Route>,
-                  <Redirect to="/" />,
-                ]
-              : [
-                  <Route exact path="/projects">
-                    <Projects />
-                  </Route>,
-                  <Route exact path="/projects/new">
-                    <NewProject />
-                  </Route>,
-                  <Route exact path="/projects/:projectId/tasks/new">
-                    <NewTask />
-                  </Route>,
-                  <Route exact path="/projects/:id">
-                    <Project />
-                  </Route>,
-                  <Route exact path="/tasks/:id">
-                    <Task />
-                  </Route>,
-                  <Redirect to="/projects" />,
-                ]}
-          </Switch>
+          {!currentUser ? (
+            <Switch>
+              <Route exact path="/sign-in">
+                <SignIn />
+              </Route>
+              <Route exact path="/sign-up">
+                <SignUp />
+              </Route>
+              <Redirect to="/" />
+            </Switch>
+          ) : (
+            <Switch>
+              <Route exact path="/projects">
+                <Projects />
+              </Route>
+              <Route exact path="/projects/new">
+                <NewProject />
+              </Route>
+              <Route exact path="/projects/:projectId/tasks/new">
+                <NewTask />
+              </Route>
+              <Route exact path="/projects/:id">
+                <Project />
+              </Route>
+              <Route exact path="/tasks/:id">
+                <Task />
+              </Route>
+              <Redirect to="/projects" />
+            </Switch>
+          )}
         </Layout>
       </Route>
     </Switch>
