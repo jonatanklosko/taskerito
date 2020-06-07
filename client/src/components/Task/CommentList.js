@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import discussionImage from './discussion.svg';
 import { formatDateTime } from '../../lib/date';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +12,10 @@ const useStyles = makeStyles((theme) => ({
 
 function CommentList({ comments }) {
   const classes = useStyles();
+
+  if (comments.length === 0) {
+    return <img src={discussionImage} alt="No comments yet." height="128" />;
+  }
 
   return (
     <Grid container direction="column" spacing={2}>
