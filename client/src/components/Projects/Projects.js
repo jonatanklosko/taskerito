@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
-import { Grid, LinearProgress, Tabs, Tab, Paper } from '@material-ui/core';
+import { Grid, Tabs, Tab, Paper } from '@material-ui/core';
 import ProjectList from './ProjectList';
+import Loading from '../Loading/Loading';
 
 const PROJECTS = gql`
   query Projects {
@@ -30,7 +31,7 @@ function Projects() {
   const { data, loading, error } = useQuery(PROJECTS);
 
   if (error) return 'Something went wrong.';
-  if (loading) return <LinearProgress />;
+  if (loading) return <Loading />;
   const { projects, currentUser } = data;
 
   const selectedProjects = tab === 'own' ? currentUser.projects : projects;

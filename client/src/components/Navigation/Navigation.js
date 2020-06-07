@@ -3,13 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import logo from '../Home/logo.svg';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import {
-  Typography,
-  Grid,
-  Toolbar,
-  LinearProgress,
-  Button,
-} from '@material-ui/core';
+import { Typography, Grid, Toolbar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SignIn from '../SignIn/SignIn';
 import SignUp from '../SignUp/SignUp';
@@ -19,6 +13,7 @@ import Project from '../Project/Project';
 import NewProject from '../NewProject/NewProject';
 import NewTask from '../NewTask/NewTask';
 import Task from '../Task/Task';
+import Loading from '../Loading/Loading';
 
 const useStyles = makeStyles((theme) => ({
   titleTypography: {
@@ -49,7 +44,7 @@ function Navigation() {
   const { data, loading, error } = useQuery(CURRENT_USER);
 
   if (error) return 'Something went wrong.';
-  if (loading) return <LinearProgress />;
+  if (loading) return <Loading />;
   const { currentUser } = data;
 
   return (

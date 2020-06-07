@@ -1,10 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
-import { Typography, Grid, LinearProgress } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { formatDatePart } from '../../lib/date';
 import TasksBoard from './TasksBoard';
 import ProjectMenu from './ProjectMenu';
+import Loading from '../Loading/Loading';
 
 const PROJECT = gql`
   query Project($id: ID!) {
@@ -37,7 +38,7 @@ function Project() {
   const { data, loading, error } = useQuery(PROJECT, { variables: { id } });
 
   if (error) return 'Something went wrong.';
-  if (loading) return <LinearProgress />;
+  if (loading) return <Loading />;
   const { project } = data;
 
   return (
