@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Home() {
+function Home({ currentUser }) {
   const classes = useStyles();
 
   return (
@@ -53,29 +53,46 @@ function Home() {
           </Typography>
         </Grid>
         <Grid item container justify="center" spacing={1}>
-          <Grid item>
-            <Button
-              size="large"
-              variant="outlined"
-              color="primary"
-              component={RouterLink}
-              to="/sign-up"
-            >
-              Sign up
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              size="large"
-              variant="contained"
-              disableElevation
-              color="primary"
-              component={RouterLink}
-              to="/sign-in"
-            >
-              Sign in
-            </Button>
-          </Grid>
+          {!currentUser ? (
+            <>
+              <Grid item>
+                <Button
+                  size="large"
+                  variant="outlined"
+                  color="primary"
+                  component={RouterLink}
+                  to="/sign-up"
+                >
+                  Sign up
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  size="large"
+                  variant="contained"
+                  disableElevation
+                  color="primary"
+                  component={RouterLink}
+                  to="/sign-in"
+                >
+                  Sign in
+                </Button>
+              </Grid>
+            </>
+          ) : (
+            <Grid item>
+              <Button
+                size="large"
+                variant="contained"
+                disableElevation
+                color="primary"
+                component={RouterLink}
+                to="/projects"
+              >
+                Let's go
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </div>

@@ -10,9 +10,8 @@ function SignOutButton() {
 
   function handleSignOut() {
     clearToken();
-    client.clearStore().then(() => {
-      history.push('/');
-    });
+    history.push('/');
+    client.resetStore();
   }
 
   return (

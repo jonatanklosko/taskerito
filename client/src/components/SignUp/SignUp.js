@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, useApolloClient } from '@apollo/client';
 import SignUpForm from './SignUpForm';
 import welcome from './welcome.svg';
 import { optionalGet } from '../../lib/utils';
@@ -25,11 +25,14 @@ const SIGN_UP = gql`
 
 function SignUp() {
   const history = useHistory();
+  const client = useApolloClient();
   const [signUp, { data, loading }] = useMutation(SIGN_UP, {
     onCompleted: ({ signUp: { successful, result } }) => {
       if (successful) {
         storeToken(result.token);
-        history.push('/');
+        client.reFetchObservableQueries().then(() => {
+          history.push('/projects');
+        });
       }
     },
   });
