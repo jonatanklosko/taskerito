@@ -15,6 +15,10 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     field :updated_at, non_null(:datetime)
     field :finished_at, :datetime
 
+    field :can_manage, non_null(:boolean) do
+      resolve &Resolvers.Tasks.can_manage/3
+    end
+
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end

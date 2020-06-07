@@ -12,6 +12,10 @@ defmodule TaskeritoWeb.Schema.CommentTypes do
     field :inserted_at, non_null(:datetime)
     field :updated_at, non_null(:datetime)
 
+    field :can_manage, non_null(:boolean) do
+      resolve &Resolvers.Comments.can_manage/3
+    end
+
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end

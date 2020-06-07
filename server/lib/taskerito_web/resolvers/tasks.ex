@@ -2,6 +2,12 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
   alias Taskerito.Projects.{Projects, Tasks}
   alias Taskerito.Accounts.Users
 
+  def can_manage(task, _args, %{context: %{current_user: current_user}}) do
+    {:ok, Tasks.can_manage_task(task, current_user)}
+  end
+
+  def can_manage(_parent, _args, _resolution), do: {:ok, false}
+
   def list_tasks(_parent, _args, _resolution) do
     {:ok, Tasks.list_tasks()}
   end

@@ -6,6 +6,7 @@ import { formatDatePart } from '../../lib/date';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
 import Loading from '../Loading/Loading';
+import TaskMenu from './TaskMenu';
 
 const TASK = gql`
   query Task($id: ID!) {
@@ -15,6 +16,8 @@ const TASK = gql`
       description
       priority
       insertedAt
+      finishedAt
+      canManage
       author {
         id
         username
@@ -23,6 +26,7 @@ const TASK = gql`
         id
         content
         insertedAt
+        canManage
         author {
           id
           username
@@ -54,6 +58,11 @@ function Task() {
             {formatDatePart(task.insertedAt)}
           </Typography>
         </Grid>
+        {task.canManage && (
+          <Grid item>
+            <TaskMenu taskId={task.id} finished={!!task.finishedAt} />
+          </Grid>
+        )}
       </Grid>
       <Grid item>
         <Typography variant="subtitle1">{task.description}</Typography>
@@ -75,7 +84,10 @@ function Task() {
         <Typography variant="h6">Comments</Typography>
       </Grid>
       <Grid item>
-        <CommentList comments={task.comments} />
+        <CommentList
+          comments={task.comments}
+          refetchQueries={[{ query: TASK, variables: { id } }]}
+        />
       </Grid>
       <Grid item>
         <NewComment

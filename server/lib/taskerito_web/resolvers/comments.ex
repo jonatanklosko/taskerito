@@ -1,6 +1,12 @@
 defmodule TaskeritoWeb.Resolvers.Comments do
   alias Taskerito.Projects.{Tasks, Comments}
 
+  def can_manage(comment, _args, %{context: %{current_user: current_user}}) do
+    {:ok, Comments.can_manage_comment(comment, current_user)}
+  end
+
+  def can_manage(_parent, _args, _resolution), do: {:ok, false}
+
   def create_comment(_parent, %{task_id: task_id, input: input}, %{
         context: %{current_user: current_user}
       }) do
