@@ -46,7 +46,7 @@ function Project() {
         <Grid item xs>
           <Typography variant="h5">{project.name}</Typography>
           <Typography variant="body2" color="textSecondary">
-            Created by {project.author.username} on{' '}
+            Created by @{project.author.username} on{' '}
             {formatDatePart(project.insertedAt)}
           </Typography>
         </Grid>

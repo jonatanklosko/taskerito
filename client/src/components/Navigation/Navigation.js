@@ -18,6 +18,7 @@ import SignOutButton from './SignOutButton';
 import Project from '../Project/Project';
 import NewProject from '../NewProject/NewProject';
 import NewTask from '../NewTask/NewTask';
+import Task from '../Task/Task';
 
 const useStyles = makeStyles((theme) => ({
   titleTypography: {
@@ -96,6 +97,9 @@ function Navigation() {
           </Route>
           <Route exact path="/projects/:id">
             <Project />
+          </Route>
+          <Route exact path="/tasks/:id">
+            <Task />
           </Route>
           <Redirect to="/" />
         </Switch>

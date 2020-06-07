@@ -15,6 +15,10 @@ defmodule TaskeritoWeb.Schema.CommentTypes do
     field :author, non_null(:user) do
       resolve dataloader(Taskerito.Repo)
     end
+
+    field :task, non_null(:task) do
+      resolve dataloader(Taskerito.Repo)
+    end
   end
 
   input_object :comment_input do
