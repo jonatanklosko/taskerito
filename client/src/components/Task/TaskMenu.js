@@ -23,6 +23,18 @@ const FINISH_TASK = gql`
   }
 `;
 
+const UNFINISH_TASK = gql`
+  mutation UninishTask($id: ID!) {
+    unfinishTask(id: $id) {
+      successful
+      result {
+        id
+        finishedAt
+      }
+    }
+  }
+`;
+
 function TaskMenu({ taskId, finished }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +48,11 @@ function TaskMenu({ taskId, finished }) {
   }
 
   const [finishTask] = useMutation(FINISH_TASK, {
+    variables: { id: taskId },
+    onCompleted: () => handleClose(),
+  });
+
+  const [unfinishTask] = useMutation(UNFINISH_TASK, {
     variables: { id: taskId },
     onCompleted: () => handleClose(),
   });
@@ -55,7 +72,9 @@ function TaskMenu({ taskId, finished }) {
         <MenuItem component={RouterLink} to={`/tasks/${taskId}/edit`}>
           Edit
         </MenuItem>
-        {!finished && (
+        {finished ? (
+          <MenuItem onClick={() => unfinishTask()}>Mark unfinished</MenuItem>
+        ) : (
           <MenuItem onClick={() => finishTask()}>Mark finished</MenuItem>
         )}
       </Menu>

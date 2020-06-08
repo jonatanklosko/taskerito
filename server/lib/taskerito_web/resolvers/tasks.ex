@@ -54,6 +54,18 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
 
   def finish_task(_parent, _args, _resolution), do: {:error, :not_authorized}
 
+  def unfinish_task(_parent, %{id: id}, %{context: %{current_user: current_user}}) do
+    task = Tasks.get_task!(id)
+
+    if Tasks.can_manage_task(task, current_user) do
+      Tasks.unfinish_task(task)
+    else
+      {:error, :not_authorized}
+    end
+  end
+
+  def finish_task(_parent, _args, _resolution), do: {:error, :not_authorized}
+
   def assign_task(_parent, %{id: id, user_id: user_id}, %{context: %{current_user: current_user}}) do
     task = Tasks.get_task!(id)
     user = Users.get_user!(user_id)

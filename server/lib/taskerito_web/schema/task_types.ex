@@ -84,6 +84,12 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
       middleware &build_payload/2
     end
 
+    field :unfinish_task, non_null(:task_payload) do
+      arg :id, non_null(:id)
+      resolve &Resolvers.Tasks.unfinish_task/3
+      middleware &build_payload/2
+    end
+
     field :assign_task, non_null(:task_payload) do
       arg :id, non_null(:id)
       arg :user_id, non_null(:id)

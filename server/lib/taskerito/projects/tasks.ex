@@ -78,6 +78,16 @@ defmodule Taskerito.Projects.Tasks do
   end
 
   @doc """
+  Marks a task as not finished.
+  """
+  def unfinish_task(%Task{} = task) do
+    task
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.put_change(:finished_at, nil)
+    |> Repo.update()
+  end
+
+  @doc """
   Assigns a task to the given user.
   """
   def assign_task(%Task{} = task, %User{} = user) do
