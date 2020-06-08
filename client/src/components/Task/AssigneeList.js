@@ -1,28 +1,29 @@
 import React from 'react';
-import { Grid, Chip } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import AddIcon from '@material-ui/icons/Add';
+import AssigneeChip from './AssigneeChip';
+import AddAssigneeIcon from './AddAssigneeIcon';
 
-function AssigneeList({ assignees }) {
+function AssigneeList({ taskId, assignees, canManage }) {
   return (
-    <Grid item container spacing={1} alignItems="center">
+    <Grid container spacing={1} alignItems="center">
       <Grid item>
         <AssignmentIndIcon color="action" style={{ verticalAlign: 'middle' }} />
       </Grid>
       {assignees.map((assignee) => (
         <Grid item>
-          <Chip
-            key={assignee.id}
-            size="small"
-            label={`@${assignee.username}`}
-            variant="outlined"
-            color="primary"
+          <AssigneeChip
+            taskId={taskId}
+            assignee={assignee}
+            canManage={canManage}
           />
         </Grid>
       ))}
-      <Grid item>
-        <AddIcon color="action" style={{ verticalAlign: 'middle' }} />
-      </Grid>
+      {canManage && (
+        <Grid item>
+          <AddAssigneeIcon taskId={taskId} />
+        </Grid>
+      )}
     </Grid>
   );
 }

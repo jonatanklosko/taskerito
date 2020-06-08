@@ -88,7 +88,13 @@ function Task() {
           </Grid>
         )}
       </Grid>
-      {task.assignees.length > 0 && <AssigneeList assignees={task.assignees} />}
+      <Grid item>
+        <AssigneeList
+          taskId={task.id}
+          assignees={task.assignees}
+          canManage={task.canManage}
+        />
+      </Grid>
       <Grid item>
         <Typography variant="subtitle1">{task.description}</Typography>
       </Grid>
