@@ -43,6 +43,11 @@ defmodule TaskeritoWeb.Schema.UserTypes do
   payload_object(:auth_payload, :token_payload)
 
   object :user_queries do
+    field :users, non_null(list_of(non_null(:user))) do
+      arg :filter, non_null(:string)
+      resolve &Resolvers.Users.list_users/3
+    end
+
     field :current_user, :user do
       resolve &Resolvers.Users.current_user/3
     end

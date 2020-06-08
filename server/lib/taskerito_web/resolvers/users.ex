@@ -2,6 +2,10 @@ defmodule TaskeritoWeb.Resolvers.Users do
   alias Taskerito.Accounts.Users
   alias TaskeritoWeb.Auth
 
+  def list_users(_parent, %{filter: filter}, _resolution) do
+    {:ok, Users.list_users(%{filter: filter})}
+  end
+
   def current_user(_parent, _args, %{context: %{current_user: current_user}}) do
     {:ok, current_user}
   end

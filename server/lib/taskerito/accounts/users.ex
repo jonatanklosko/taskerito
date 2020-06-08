@@ -11,8 +11,20 @@ defmodule Taskerito.Accounts.Users do
   @doc """
   Returns the list of users.
   """
-  def list_users do
-    Repo.all(User)
+  def list_users(args \\ %{}) do
+    limit = args[:limit] || 10
+
+    User
+    |> filter_by_text(args[:filter])
+    |> limit(^limit)
+    |> Repo.all()
+  end
+
+  defp filter_by_text(query, nil), do: query
+
+  defp filter_by_text(query, filter) do
+    query
+    |> where([u], ilike(u.username, ^"#{filter}%"))
   end
 
   @doc """
