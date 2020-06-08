@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
-import { Typography, Grid, Chip } from '@material-ui/core';
+import { Typography, Grid } from '@material-ui/core';
 import { formatDatePart } from '../../lib/date';
 import CommentList from './CommentList';
 import NewComment from './NewComment';
 import Loading from '../Loading/Loading';
 import TaskMenu from './TaskMenu';
 import PriorityChip from '../PriorityChip/PriorityChip';
+import AssigneeList from './AssigneeList';
 
 const TASK = gql`
   query Task($id: ID!) {
@@ -87,22 +88,10 @@ function Task() {
           </Grid>
         )}
       </Grid>
+      {task.assignees.length > 0 && <AssigneeList assignees={task.assignees} />}
       <Grid item>
         <Typography variant="subtitle1">{task.description}</Typography>
       </Grid>
-      {task.assignees.length > 0 && (
-        <Grid item>
-          {task.assignees.map((assignee) => (
-            <Chip
-              key={assignee.id}
-              size="small"
-              label={`@${assignee.username}`}
-              variant="outlined"
-              color="primary"
-            />
-          ))}
-        </Grid>
-      )}
       <Grid item>
         <Typography variant="h6">Comments</Typography>
       </Grid>
