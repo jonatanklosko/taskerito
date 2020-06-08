@@ -14,8 +14,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { optionalGet } from '../../lib/utils';
 import { prioritiesData } from '../../lib/priorities';
 
-function TaskForm({ disabled, onSubmit, failed }) {
-  const { register, control, handleSubmit, errors } = useForm();
+function TaskForm({
+  onSubmit,
+  disabled = false,
+  failed = false,
+  initialData = {},
+  submitText = 'Save',
+}) {
+  const { register, control, handleSubmit, errors } = useForm({
+    defaultValues: initialData,
+  });
 
   function handleValidSubmit(data) {
     onSubmit(data);
@@ -90,7 +98,7 @@ function TaskForm({ disabled, onSubmit, failed }) {
             color="primary"
             disabled={disabled}
           >
-            Create
+            {submitText}
           </Button>
         </Grid>
       </Grid>
