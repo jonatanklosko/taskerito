@@ -7,8 +7,8 @@ defmodule TaskeritoWeb.Resolvers.Projects do
 
   def can_manage(_parent, _args, _resolution), do: {:ok, false}
 
-  def list_projects(_parent, _args, _resolution) do
-    {:ok, Projects.list_projects()}
+  def list_projects(_parent, %{order_by: order_by}, _resolution) do
+    {:ok, Projects.list_projects(%{order_by: order_by})}
   end
 
   def get_project(_parent, %{id: id}, _resolution) do

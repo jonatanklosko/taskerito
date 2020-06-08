@@ -8,8 +8,8 @@ defmodule TaskeritoWeb.Resolvers.Tasks do
 
   def can_manage(_parent, _args, _resolution), do: {:ok, false}
 
-  def list_tasks(_parent, _args, _resolution) do
-    {:ok, Tasks.list_tasks()}
+  def list_tasks(_parent, %{order_by: order_by}, _resolution) do
+    {:ok, Tasks.list_tasks(%{order_by: order_by})}
   end
 
   def get_task(_parent, %{id: id}, _resolution) do

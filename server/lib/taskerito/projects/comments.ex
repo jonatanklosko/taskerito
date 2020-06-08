@@ -11,8 +11,12 @@ defmodule Taskerito.Projects.Comments do
   @doc """
   Returns the list of comments.
   """
-  def list_comments do
-    Repo.all(Comment)
+  def list_comments(args \\ %{}) do
+    order_by = args[:order_by] || [asc: :inserted_at]
+
+    Comment
+    |> order_by(^order_by)
+    |> Repo.all()
   end
 
   @doc """

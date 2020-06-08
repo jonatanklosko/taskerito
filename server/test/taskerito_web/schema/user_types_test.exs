@@ -38,7 +38,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     @current_user_query """
     query CurrentUser {
       currentUser {
-        projects {
+        projects(orderBy: INSERTED_AT_DESC) {
           id
         }
       }
@@ -70,7 +70,7 @@ defmodule TaskeritoWeb.Schema.UserTypesTest do
     @current_user_query """
     query CurrentUser {
       currentUser {
-        tasks {
+        tasks(orderBy: INSERTED_AT_ASC) {
           id
         }
       }

@@ -11,8 +11,12 @@ defmodule Taskerito.Projects.Projects do
   @doc """
   Returns the list of projects.
   """
-  def list_projects do
-    Repo.all(Project)
+  def list_projects(args \\ %{}) do
+    order_by = args[:order_by] || [asc: :inserted_at]
+
+    Project
+    |> order_by(^order_by)
+    |> Repo.all()
   end
 
   @doc """

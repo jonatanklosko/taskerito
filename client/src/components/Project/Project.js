@@ -19,7 +19,7 @@ const PROJECT = gql`
         id
         username
       }
-      tasks {
+      tasks(orderBy: PRIORITY_ASC) {
         id
         name
         assignees {

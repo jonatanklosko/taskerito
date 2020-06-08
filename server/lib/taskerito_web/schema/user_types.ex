@@ -13,14 +13,17 @@ defmodule TaskeritoWeb.Schema.UserTypes do
     field :email, non_null(:string)
 
     field :projects, non_null(list_of(non_null(:project))) do
+      arg :order_by, non_null(:project_order_by)
       resolve dataloader(Taskerito.Repo)
     end
 
     field :tasks, non_null(list_of(non_null(:task))) do
+      arg :order_by, non_null(:task_order_by)
       resolve dataloader(Taskerito.Repo)
     end
 
     field :assigned_tasks, non_null(list_of(non_null(:task))) do
+      arg :order_by, non_null(:task_order_by)
       resolve dataloader(Taskerito.Repo)
     end
   end

@@ -22,8 +22,14 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
     end
 
     field :tasks, non_null(list_of(non_null(:task))) do
+      arg :order_by, non_null(:task_order_by)
       resolve dataloader(Taskerito.Repo)
     end
+  end
+
+  enum :project_order_by do
+    value :inserted_at_asc, as: [asc: :inserted_at]
+    value :inserted_at_desc, as: [desc: :inserted_at]
   end
 
   input_object :project_input do
@@ -35,6 +41,8 @@ defmodule TaskeritoWeb.Schema.ProjectTypes do
 
   object :project_queries do
     field :projects, non_null(list_of(non_null(:project))) do
+      # For now we don't set any default value, see: https://github.com/absinthe-graphql/absinthe/issues/941
+      arg :order_by, non_null(:project_order_by)
       resolve &Resolvers.Projects.list_projects/3
     end
 

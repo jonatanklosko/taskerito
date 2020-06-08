@@ -23,14 +23,26 @@ defmodule TaskeritoWeb.Schema do
   end
 
   def context(context) do
+    source = Dataloader.Ecto.new(Taskerito.Repo, query: &TaskeritoWeb.Schema.query/2)
+
     loader =
       Dataloader.new()
-      |> Dataloader.add_source(Taskerito.Repo, Dataloader.Ecto.new(Taskerito.Repo))
+      |> Dataloader.add_source(Taskerito.Repo, source)
 
     Map.put(context, :loader, loader)
   end
 
   def plugins() do
     [Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults()]
+  end
+
+  import Ecto.Query, warn: false
+
+  def query(querable, %{order_by: order_by}) do
+    querable |> order_by(^order_by)
+  end
+
+  def query(querable, _args) do
+    querable
   end
 end

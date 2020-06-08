@@ -6,7 +6,7 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
   describe "query: project list" do
     @projects_query """
     query Projects {
-      projects {
+      projects(orderBy: INSERTED_AT_ASC) {
         id
         name
       }
@@ -29,7 +29,7 @@ defmodule TaskeritoWeb.Schema.ProjectTypesTest do
       project(id: $id) {
         id
         name
-        tasks {
+        tasks(orderBy: INSERTED_AT_ASC) {
           id
         }
       }

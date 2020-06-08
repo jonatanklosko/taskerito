@@ -36,6 +36,13 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
     end
   end
 
+  enum :task_order_by do
+    value :inserted_at_asc, as: [asc: :inserted_at]
+    value :inserted_at_desc, as: [desc: :inserted_at]
+    value :priority_asc, as: [asc: :priority]
+    value :priority_desc, as: [desc: :priority]
+  end
+
   input_object :task_input do
     field :name, :string
     field :description, :string
@@ -46,6 +53,7 @@ defmodule TaskeritoWeb.Schema.TaskTypes do
 
   object :task_queries do
     field :tasks, non_null(list_of(non_null(:task))) do
+      arg :order_by, non_null(:task_order_by)
       resolve &Resolvers.Tasks.list_tasks/3
     end
 

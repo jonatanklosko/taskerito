@@ -6,7 +6,7 @@ defmodule TaskeritoWeb.Schema.TaskTypesTest do
   describe "query: task list" do
     @tasks_query """
     query Tasks {
-      tasks {
+      tasks(orderBy: INSERTED_AT_ASC) {
         id
         name
       }

@@ -11,8 +11,12 @@ defmodule Taskerito.Projects.Tasks do
   @doc """
   Returns the list of tasks.
   """
-  def list_tasks do
-    Repo.all(Task)
+  def list_tasks(args \\ %{}) do
+    order_by = args[:order_by] || [asc: :inserted_at]
+
+    Task
+    |> order_by(^order_by)
+    |> Repo.all()
   end
 
   @doc """

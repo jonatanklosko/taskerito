@@ -7,12 +7,12 @@ import Loading from '../Loading/Loading';
 
 const PROJECTS = gql`
   query Projects {
-    projects {
+    projects(orderBy: INSERTED_AT_DESC) {
       ...projectFields
     }
     currentUser {
       id
-      projects {
+      projects(orderBy: INSERTED_AT_DESC) {
         ...projectFields
       }
     }
