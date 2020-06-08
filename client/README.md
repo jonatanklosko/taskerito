@@ -11,7 +11,7 @@ Requirements:
 
 - Node.js
 
-```
+```sh
 # Install dependencies
 npm install
 # Run the development server

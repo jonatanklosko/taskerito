@@ -11,7 +11,7 @@ Requirements:
 - Erlang & Elixir
 - PostgreSQL
 
-```
+```sh
 # Set up the project
 mix setup
 # Start Phoenix endpoint
@@ -23,6 +23,6 @@ from your browser for an interactive GraphQL client.
 
 ## Testing
 
-```
+```sh
 mix test
 ```
