@@ -11,6 +11,8 @@ import NewProject from '../NewProject/NewProject';
 import NewTask from '../NewTask/NewTask';
 import Task from '../Task/Task';
 import Layout from '../Layout/Layout';
+import EditProject from '../EditProject/EditProject';
+import EditTask from '../EditTask/EditTask';
 
 const CURRENT_USER = gql`
   query CurrentUser {
@@ -56,8 +58,14 @@ function Navigation() {
               <Route exact path="/projects/:projectId/tasks/new">
                 <NewTask />
               </Route>
+              <Route exact path="/projects/:id/edit">
+                <EditProject />
+              </Route>
               <Route exact path="/projects/:id">
                 <Project />
+              </Route>
+              <Route exact path="/tasks/:id/edit">
+                <EditTask />
               </Route>
               <Route exact path="/tasks/:id">
                 <Task />
