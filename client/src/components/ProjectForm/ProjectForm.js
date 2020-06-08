@@ -4,8 +4,16 @@ import { Alert } from '@material-ui/lab';
 import { useForm } from 'react-hook-form';
 import { optionalGet } from '../../lib/utils';
 
-function ProjectForm({ disabled, onSubmit, failed }) {
-  const { register, handleSubmit, errors } = useForm();
+function ProjectForm({
+  onSubmit,
+  disabled = false,
+  failed = false,
+  initialData = {},
+  submitText = 'Save',
+}) {
+  const { register, handleSubmit, errors } = useForm({
+    defaultValues: initialData,
+  });
 
   function handleValidSubmit(data) {
     onSubmit(data);
@@ -59,7 +67,7 @@ function ProjectForm({ disabled, onSubmit, failed }) {
             color="primary"
             disabled={disabled}
           >
-            Create
+            {submitText}
           </Button>
         </Grid>
       </Grid>

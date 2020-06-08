@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMutation, gql } from '@apollo/client';
-import projectImage from './project.svg';
+import projectImage from '../ProjectForm/project.svg';
 import CenteredFormContainer from '../CenteredFormContainer/CenteredFormContainer';
-import ProjectForm from './ProjectForm';
+import ProjectForm from '../ProjectForm/ProjectForm';
 
 const CREATE_PROJECT = gql`
   mutation CreateProject($input: ProjectInput!) {
@@ -29,6 +29,7 @@ function NewProject() {
   return (
     <CenteredFormContainer svgImage={projectImage} title="New project">
       <ProjectForm
+        submitText="Create"
         disabled={loading}
         failed={data && !data.createProject.successful}
         onSubmit={(data) => createProject({ variables: { input: data } })}
