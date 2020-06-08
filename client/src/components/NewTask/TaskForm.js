@@ -12,7 +12,7 @@ import {
 import { Alert } from '@material-ui/lab';
 import { useForm, Controller } from 'react-hook-form';
 import { optionalGet } from '../../lib/utils';
-import { priorities } from '../../lib/priorities';
+import { prioritiesData } from '../../lib/priorities';
 
 function TaskForm({ disabled, onSubmit, failed }) {
   const { register, control, handleSubmit, errors } = useForm();
@@ -64,7 +64,7 @@ function TaskForm({ disabled, onSubmit, failed }) {
             <Controller
               as={
                 <RadioGroup>
-                  {priorities.map(({ value, label }) => (
+                  {prioritiesData.map(({ value, label }) => (
                     <FormControlLabel
                       key={value}
                       value={value}

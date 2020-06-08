@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useQuery, gql } from '@apollo/client';
 import { Typography, Grid, Chip } from '@material-ui/core';
 import { formatDatePart } from '../../lib/date';
@@ -7,6 +7,7 @@ import CommentList from './CommentList';
 import NewComment from './NewComment';
 import Loading from '../Loading/Loading';
 import TaskMenu from './TaskMenu';
+import PriorityChip from '../PriorityChip/PriorityChip';
 
 const TASK = gql`
   query Task($id: ID!) {
@@ -18,6 +19,10 @@ const TASK = gql`
       insertedAt
       finishedAt
       canManage
+      project {
+        id
+        name
+      }
       author {
         id
         username
@@ -50,9 +55,27 @@ function Task() {
 
   return (
     <Grid container direction="column" spacing={2}>
+      <Grid item>
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          component={RouterLink}
+          to={`/projects/${task.project.id}`}
+          style={{ textDecoration: 'none' }}
+        >
+          {task.project.name}
+        </Typography>
+      </Grid>
       <Grid item container alignItems="center">
         <Grid item xs>
-          <Typography variant="h5">{task.name}</Typography>
+          <Grid container spacing={1} alignItems="center">
+            <Grid item>
+              <Typography variant="h5">{task.name}</Typography>
+            </Grid>
+            <Grid item>
+              <PriorityChip priority={task.priority} />
+            </Grid>
+          </Grid>
           <Typography variant="body2" color="textSecondary">
             Created by @{task.author.username} on{' '}
             {formatDatePart(task.insertedAt)}

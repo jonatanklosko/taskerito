@@ -7,9 +7,11 @@ import {
   Grid,
   Paper,
   Typography,
+  ListItemSecondaryAction,
 } from '@material-ui/core';
 import noDataImage from './no-data.svg';
 import { formatDatePart } from '../../lib/date';
+import PriorityChip from '../PriorityChip/PriorityChip';
 
 function TaskList({ label, tasks }) {
   return (
@@ -38,6 +40,10 @@ function TaskList({ label, tasks }) {
                         : `Created on ${formatDatePart(task.insertedAt)}`
                     }
                   />
+                  <ListItemSecondaryAction>
+                    {' '}
+                    <PriorityChip priority={task.priority} />
+                  </ListItemSecondaryAction>
                 </ListItem>
               ))}
             </List>
