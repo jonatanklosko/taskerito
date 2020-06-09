@@ -11,7 +11,7 @@ function AssigneeList({ taskId, assignees, canManage }) {
         <AssignmentIndIcon color="action" style={{ verticalAlign: 'middle' }} />
       </Grid>
       {assignees.map((assignee) => (
-        <Grid item>
+        <Grid item key={assignee.id}>
           <AssigneeChip
             taskId={taskId}
             assignee={assignee}
